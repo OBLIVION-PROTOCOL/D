@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DiGiConnect Hub - Your central dashboard for digital business cards, trust scores, and real connections">
+  
+  <title>Hub — DiGiConnect</title>
+  
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <meta name="theme-color" content="#0f172a" />
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <style>
+    .hub-hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      padding: 4rem 2rem 2rem;
+      text-align: center;
+      border-bottom: 4px solid;
+      border-image: linear-gradient(90deg, #06b6d4, #3b82f6, #8b5cf6) 1;
+    }
+
+    .hub-hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #06b6d4, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .version-badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: linear-gradient(135deg, #10b981, #3b82f6);
+      color: white;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+
+    .hub-container {
+      max-width: 1200px;
+      margin: 3rem auto;
+      padding: 0 2rem;
+    }
+
+    .hub-section {
+      margin-bottom: 4rem;
+    }
+
+    .hub-section-title {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .hub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .hub-card {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+    }
+
+    .hub-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--color-primary);
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
+    }
+
+    .hub-card-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .hub-card-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #f1f5f9;
+      margin-bottom: 0.5rem;
+    }
+
+    .hub-card-description {
+      color: #94a3b8;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .hub-card-meta {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .hub-card-badge {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      background: rgba(16, 185, 129, 0.1);
+      color: #10b981;
+      font-weight: 500;
+    }
+
+    .hub-card-badge.new {
+      background: rgba(59, 130, 246, 0.1);
+      color: #3b82f6;
+    }
+
+    .hub-card-badge.demo {
+      background: rgba(139, 92, 246, 0.1);
+      color: #8b5cf6;
+    }
+
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .stat-card {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #10b981;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+
+    .features-list {
+      background: rgba(59, 130, 246, 0.05);
+      border-left: 4px solid #3b82f6;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin: 2rem 0;
+    }
+
+    .features-list h3 {
+      color: #3b82f6;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .features-list ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .features-list li {
+      padding: 0.5rem 0;
+      color: #cbd5e1;
+      position: relative;
+      padding-left: 1.5rem;
+    }
+
+    .features-list li:before {
+      content: '✓';
+      color: #10b981;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+
+    @media (max-width: 768px) {
+      .hub-hero h1 {
+        font-size: 2rem;
+      }
+
+      .hub-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero -->
+  <div class="hub-hero">
+    <h1>🏠 DiGiConnect Hub</h1>
+    <p style="color: #94a3b8; font-size: 1.1rem; max-width: 600px; margin: 1rem auto;">
+      Your central dashboard for creating cards, managing links, and building trust
+    </p>
+    <span class="version-badge">v5.0 • Link Aggregator Edition</span>
+  </div>
+
+  <!-- Main Content -->
+  <div class="hub-container">
+    <!-- Alpha CTA -->
+    <a href="./alpha.html" style="display: block; background: linear-gradient(135deg, #F5A623, #ff8800); padding: 2rem; border-radius: 16px; text-align: center; text-decoration: none; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(245,166,35,0.3);">
+      <div style="font-size: 3rem; margin-bottom: 0.5rem;">🚀</div>
+      <div style="font-size: 1.5rem; font-weight: 700; color: #0A1628; margin-bottom: 0.5rem;">Test the Alpha Preview!</div>
+      <div style="color: #1e293b; margin-bottom: 1rem;">Experience DiGi Business & DiGi Social - See the future of trust</div>
+      <div style="display: inline-block; background: #0A1628; color: white; padding: 0.75rem 2rem; border-radius: 12px; font-weight: 600;">Launch Alpha →</div>
+    </a>
+
+    <!-- Quick Stats -->
+    <div class="quick-stats">
+      <div class="stat-card">
+        <div class="stat-value">3</div>
+        <div class="stat-label">Card Types</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">15+</div>
+        <div class="stat-label">Social Platforms</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">20</div>
+        <div class="stat-label">Links Per Card</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">360°</div>
+        <div class="stat-label">Card Rotation</div>
+      </div>
+    </div>
+
+    <!-- Core Features -->
+    <section class="hub-section">
+      <h2 class="hub-section-title">🎴 Core Features</h2>
+      <div class="hub-grid">
+        <a href="./create.html" class="hub-card">
+          <span class="hub-card-icon">✨</span>
+          <h3 class="hub-card-title">Create Your Card</h3>
+          <p class="hub-card-description">
+            Design your digital business card with three types to choose from: Profile ID, Business, or Client card.
+          </p>
+          <div class="hub-card-meta">
+            <span class="hub-card-badge">Core</span>
+            <span class="hub-card-badge new">Updated</span>
+          </div>
+        </a>
+
+        <a href="./wallet.html" class="hub-card">
+          <span class="hub-card-icon">💾</span>
+          <h3 class="hub-card-title">My Wallet</h3>
+          <p class="hub-card-description">
+            View and manage your saved cards. Works offline with PWA support. Save cards from businesses and clients.
+          </p>
+          <div class="hub-card-meta">
+            <span class="hub-card-badge">Core</span>
+          </div>
+        </a>
+
+        <a href="./links-demo.html" class="hub-card">
+          <span class="hub-card-icon">🔗</span>
+          <h3 class="hub-card-title">Link Aggregator</h3>
+          <p class="hub-card-description">
+            Linktree-style link management. Add up to 20 social media, business, and custom links to your card.
+          </p>
+          <div class="hub-card-meta">
+            <span class="hub-card-badge new">New in v5.0</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Demos & Examples -->
+    <section class="hub-section">
+      <h2 class="hub-section-title">🎬 Demos & Examples</h2>
+      <div class="hub-grid">
+        <a href="demo-v5.html" class="hub-card">
+          <span class="hub-card-icon">🎴</span>
+          <h3 class="hub-card-title">Card Types Demo</h3>
+          <p class="hub-card-description">
+            See all three card types in action: Profile ID cards (vertical), Business cards (horizontal), and Client cards (horizontal).
+          </p>
+          <div class="hub-card-meta">
+            <span class="hub-card-badge demo">Demo</span>
+            <span class="hub-card-badge new">v5.0</span>
+          </div>
+        </a>
+
+        <a href="./demo.html" class="hub-card">
+          <span class="hub-card-icon">🃏</span>
+          <h3 class="hub-card-title">Interactive Demo</h3>
+          <p class="hub-card-description">
+            Original demo page with business and client cards. Experience 360° rotation, QR codes, and interactive features.
+          </p>
+          <div class="hub-card-meta">
+            <span class="hub-card-badge demo">Demo</span>
+          </div>
+        </a>
+
+        <a href="index.html" class="hub-card">
+          <span class="hub-card-icon">🏠</span>
+          <h3 class="hub-card-title">Landing Page</h3>
+          <p class="hub-card-description">
+            Main landing page with pricing, features, and the story behind DiGiConnect. Learn about trust-first business.
+          </p>
+          <div class="hub-card-meta">
+            <span class="hub-card-badge">Marketing</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- What's New -->
+    <section class="hub-section">
+      <div class="features-list">
+        <h3>✨ What's New in v5.0</h3>
+        <ul>
+          <li><strong>Link Aggregator:</strong> Linktree-style functionality built into cards</li>
+          <li><strong>15+ Platforms:</strong> Instagram, TikTok, LinkedIn, and more pre-configured</li>
+          <li><strong>Three Card Types:</strong> Profile ID, Business, and Client cards</li>
+          <li><strong>Drag-and-Drop:</strong> Reorder your links with ease</li>
+          <li><strong>Horizontal Cards:</strong> Business and Client cards use landscape orientation</li>
+          <li><strong>Enhanced Demos:</strong> All demo cards now showcase real links</li>
+          <li><strong>Better Navigation:</strong> This hub page for easy access</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Coming Soon -->
+    <section class="hub-section">
+      <h2 class="hub-section-title">🔮 Coming Soon</h2>
+      <div class="hub-grid">
+        <a href="alpha.html" class="hub-card">
+          <span class="hub-card-icon">🚀</span>
+          <h3 class="hub-card-title">Alpha Preview</h3>
+          <p class="hub-card-description">
+            Experience DiGi Business & DiGi Social. See the future of the two-sided trust platform.
+          </p>
+          <div class="hub-card-meta">
+            <span class="hub-card-badge new">New in v5.0</span>
+          </div>
+        </a>
+
+        <a href="./verify.html" class="hub-card">
+          <span class="hub-card-icon">✅</span>
+          <h3 class="hub-card-title">Manual Verification</h3>
+          <p class="hub-card-description">
+            Upload documents for verification. Perfect for freelancers and small businesses building trust.
+          </p>
+          <div class="hub-card-meta">
+            <span class="hub-card-badge new">New in v5.0</span>
+          </div>
+        </a>
+
+        <div class="hub-card" style="cursor: default; opacity: 0.7;">
+          <span class="hub-card-icon">🔐</span>
+          <h3 class="hub-card-title">User Accounts</h3>
+          <p class="hub-card-description">
+            Sign up to save your cards in the cloud, manage reviews, and build your trust score over time.
+          </p>
+          <div class="hub-card-meta">
+            <span class="hub-card-badge">Coming Soon</span>
+          </div>
+        </div>
+
+        <div class="hub-card" style="cursor: default; opacity: 0.7;">
+          <span class="hub-card-icon">🤝</span>
+          <h3 class="hub-card-title">Partner Network</h3>
+          <p class="hub-card-description">
+            Connect with other businesses. Build partner chains. Show "Trusted by" relationships on your card.
+          </p>
+          <div class="hub-card-meta">
+            <span class="hub-card-badge">Coming Soon</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resources -->
+    <section class="hub-section">
+      <h2 class="hub-section-title">📚 Resources</h2>
+      <div class="hub-grid">
+        <a href="README.md" class="hub-card" target="_blank">
+          <span class="hub-card-icon">📖</span>
+          <h3 class="hub-card-title">Documentation</h3>
+          <p class="hub-card-description">
+            Full technical documentation, API reference, and development guide.
+          </p>
+        </a>
+
+        <a href="BACKEND_SPEC.md" class="hub-card" target="_blank">
+          <span class="hub-card-icon">⚙️</span>
+          <h3 class="hub-card-title">Backend Spec</h3>
+          <p class="hub-card-description">
+            Technical specifications for the backend API, database schema, and architecture.
+          </p>
+        </a>
+
+        <a href="docs/DiGi_Trust_Score_Specification.md" class="hub-card" target="_blank">
+          <span class="hub-card-icon">⭐</span>
+          <h3 class="hub-card-title">Trust Score System</h3>
+          <p class="hub-card-description">
+            Learn how trust scores work, from verification to recovery points.
+          </p>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p style="text-align: center; color: #64748b; margin-bottom: 1rem;">
+        DiGiConnect v5.0 — The Platform That Doesn't Make You Dance
+      </p>
+      <p style="text-align: center; color: #475569; font-size: 0.875rem;">
+        © 2025 DABT217™ — A Serious Jester Production 🃏
+      </p>
+      <p style="text-align: center; color: #475569; font-size: 0.875rem; margin-top: 0.5rem;">
+        <strong>BE PROUD. BE BOLD. BE REAL.</strong>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    window.DIGI_BUILD = 'DiGiv5.0';
+    console.log('✓ DiGiConnect Hub loaded:', window.DIGI_BUILD);
+  </script>
+</body>
+</html>

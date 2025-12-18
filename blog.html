@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Updates — DiGiConnect</title>
+    <meta name="description" content="Real updates from the builder. No marketing fluff.">
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-96.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        .blog-hero {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            padding: 6rem 0 4rem;
+            text-align: center;
+            color: white;
+        }
+        
+        .blog-hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        .blog-hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+        }
+        
+        .blog-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        
+        .blog-post {
+            background: var(--color-bg-light);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .blog-post:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+        }
+        
+        .blog-date {
+            font-size: 0.9rem;
+            color: var(--color-primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .blog-post h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--color-text);
+        }
+        
+        .blog-post p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--color-text-secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .blog-post strong {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+        
+        .coming-soon-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="./" class="logo" aria-label="DiGiConnect home">
+                <div class="logo-icon">DC</div>
+                <div class="logo-text"><span>DiGi</span><span>Connect</span></div>
+            </a>
+
+            <div class="nav-links" role="navigation" aria-label="Primary">
+                <a href="./hub.html">Hub</a>
+                <a href="./#how-it-works">How It Works</a>
+                <a href="./#pricing">Pricing</a>
+                <a href="./blog.html" style="color: var(--color-primary);">Updates</a>
+                <a href="./alpha.html" class="btn" style="background: #F5A623; color: #0A1628;">🚀 Test Alpha</a>
+                <a href="./demo.html" class="btn btn-secondary">View Demo</a>
+                <a href="./create.html" class="btn btn-primary">Create Card</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="blog-hero">
+            <h1>Updates from the Builder</h1>
+            <p>Real updates. No marketing fluff.</p>
+        </div>
+
+        <div class="blog-container">
+            <article class="blog-post">
+                <div class="blog-date">December 18, 2024</div>
+                <h2>v6.0 Update: Enhanced Card Interactions</h2>
+                <p>
+                    Today's update brings major improvements to card interactions. You can now <strong>flip cards by tapping any corner</strong> or by <strong>dragging to rotate 360°</strong>. 
+                    The invisible corner flip zones make interaction more intuitive without cluttering the design.
+                </p>
+                <p>
+                    <strong>What's new:</strong>
+                </p>
+                <ul>
+                    <li>Invisible corner tap zones for easy flipping</li>
+                    <li>Drag-to-flip: Complete 360° rotation flips the card</li>
+                    <li>DiGi ID now shows profile details on front, QR code on back</li>
+                    <li>Updated pricing tiers with clearer customization options</li>
+                    <li>Fixed card overlay positioning issues</li>
+                </ul>
+            </article>
+
+            <article class="blog-post">
+                <div class="blog-date">December 18, 2024</div>
+                <h2>v5.0 Launch: Three-Card System</h2>
+                <p>
+                    We've restructured the platform around three card types: DiGi ID (free for everyone), Business Cards, and Client Cards. 
+                    Your DiGi ID is your passport — it links to your full profile. Business and Client cards are where you add socials and showcase work.
+                </p>
+                <p>
+                    <strong>Why the change?</strong> Clarity. Your identity shouldn't be mixed with your promotions. Your DiGi ID is clean. 
+                    Your other cards are tools. Simple.
+                </p>
+            </article>
+
+            <article class="blog-post">
+                <div class="blog-date">December 2024</div>
+                <h2>The Unbuyable Promise</h2>
+                <p>
+                    Trust scores can't be purchased. Visibility can't be bought. Paid tiers give you <em>convenience</em> (more cards, more views, better analytics), 
+                    never <em>advantage</em> in the trust system.
+                </p>
+                <p>
+                    If you're a contractor with a 4.9 trust score and 200 real reviews, you rank higher than a massive company with paid promotions. 
+                    That's the promise.
+                </p>
+            </article>
+
+            <article class="blog-post">
+                <div class="blog-date">Coming Soon</div>
+                <h2>What's Next <span class="coming-soon-badge">Roadmap</span></h2>
+                <p>
+                    Backend integration is the next phase. Real card creation, actual trust score calculations, verified review systems. 
+                    We're building it slowly, deliberately, without cutting corners.
+                </p>
+                <p>
+                    <strong>Pro Tier Coming Soon Features:</strong>
+                </p>
+                <ul>
+                    <li>🔜 <strong>Live images</strong> — Dynamic profile photos that update automatically</li>
+                    <li>🔜 <strong>Uploadable backgrounds</strong> — Custom card backgrounds with your own images</li>
+                </ul>
+                <p>
+                    <strong>Timeline:</strong> Q1 2025 for backend alpha. Public beta in Q2. We'll keep this section updated with real progress.
+                </p>
+            </article>
+
+            <article class="blog-post">
+                <div class="blog-date">December 18, 2024</div>
+                <h2>The Human Initiative: People-run, AI-assisted</h2>
+                <p>
+                    Let's be clear about something important: <strong>DiGiConnect is not "human-first." It's trust-fiat based.</strong>
+                </p>
+                <p>
+                    We believe in a simple truth: <strong>Humans can't replace AI, and AI can't replace humans.</strong>
+                </p>
+                <p>
+                    <strong>AI provides:</strong> Structure, consistency, scoring logic, and scale.<br>
+                    <strong>Humans provide:</strong> Judgment, context, final authority, and governance.
+                </p>
+                <p>
+                    Trust decisions are calculated by AI but can be <strong>reviewed, corrected, or enhanced by real people</strong>. 
+                    The system explicitly supports discretionary actions: manual trust bonuses, overrides, and corrections when community consensus or context justifies it.
+                </p>
+                <p>
+                    <strong>Trust isn't automated. It's governed.</strong>
+                </p>
+                <p>
+                    We don't remove people from the system.<br>
+                    We don't remove intelligence from the system.<br>
+                    <strong>We integrate them.</strong>
+                </p>
+                <p>
+                    This is <strong>People-run, AI-assisted</strong>. That's the Human Initiative.
+                </p>
+            </article>
+
+            <article class="blog-post">
+                <div class="blog-date">Philosophy</div>
+                <h2>Why We Build This Way</h2>
+                <p>
+                    Every feature added is a deliberate choice. Every line of code serves a purpose. We don't add complexity for the sake of innovation.
+                </p>
+                <p>
+                    DiGiConnect is built with <strong>simple tools</strong>, <strong>trust-fiat governance</strong>, and <strong>minimal trust requirements</strong>. 
+                    No hidden systems. No black boxes. Just clean, working code that does what it says.
+                </p>
+                <p>
+                    <strong>Our values:</strong>
+                </p>
+                <ul>
+                    <li>People-run, AI-assisted (not AI-first or human-only)</li>
+                    <li>Static HTML for transparency (NeoCities hosting)</li>
+                    <li>Email without exploitation</li>
+                    <li>Clear payment rails</li>
+                    <li>PWA for practicality, not trend-chasing</li>
+                    <li>Restraint over feature bloat</li>
+                </ul>
+                <p>
+                    Look how little you need to trust us to understand what's happening. <strong>Be Bold. Be Proud. Be Real.</strong>
+                </p>
+            </article>
+        </div>
+
+        <!-- CTA -->
+        <section style="padding: 4rem 2rem; background: var(--color-bg-light);">
+            <div class="container">
+                <div class="cta-box">
+                    <h2>Ready to Build Real Trust?</h2>
+                    <p>Get your free DiGi ID. Create your first card. Join a platform that doesn't make you dance.</p>
+                    <a href="./create.html" class="btn btn-primary btn-lg">Create Your Free Card</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--color-bg); padding: 3rem 0; border-top: 1px solid var(--color-border);">
+        <div class="container" style="text-align: center;">
+            <div class="footer-links" style="margin-bottom: 1.5rem;">
+                <a href="./">Home</a>
+                <a href="./hub.html">Hub</a>
+                <a href="./demo.html">Demo</a>
+                <a href="./wallet.html">Wallet</a>
+                <a href="./create.html">Create</a>
+                <a href="./verify.html">Verify</a>
+                <a href="./alpha.html">Alpha</a>
+                <a href="./blog.html">Blog</a>
+                <a href="./trust-score.html">Trust Score</a>
+                <a href="./sitemap.xml">Sitemap</a>
+            </div>
+            <p style="color: var(--color-text-secondary); font-size: 0.9rem;">
+                &copy; 2025 DABT217&trade; / DiGiConnect&trade;<br>
+                Part of The Restored Remembering Network<br>
+                A Davscty Project | All Rights Reserved
+            </p>
+            <p style="color: var(--color-text-muted); font-size: 0.8rem; margin-top: 0.5rem;">
+                Contact: <a href="https://twitter.com/digycty" target="_blank" rel="noopener" style="color: var(--color-primary);">@digycty</a> | 
+                <a href="mailto:DiGiConnect217@gmail.com" style="color: var(--color-primary);">DiGiConnect217@gmail.com</a>
+            </p>
+            <p style="color: var(--color-text-muted); font-size: 0.8rem; margin-top: 0.5rem;">
+                DiGiv6.0 | December 2024 | People-run, AI-assisted
+            </p>
+        </div>
+    </footer>
+
+    <!-- PWA Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(reg => console.log('✅ Service Worker registered'))
+                .catch(err => console.log('⚠️ SW registration failed', err));
+        }
+    </script>
+</body>
+</html>

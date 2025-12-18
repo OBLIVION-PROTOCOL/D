@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline — DiGiConnect</title>
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-96.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        .offline-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            background: radial-gradient(ellipse at center, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+        }
+        
+        .offline-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .offline-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+        
+        .offline-logo .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: white;
+        }
+        
+        .offline-logo .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .offline-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .offline-text {
+            color: var(--color-text-muted);
+            margin-bottom: 2rem;
+            max-width: 450px;
+            line-height: 1.6;
+        }
+        
+        .offline-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .offline-hint {
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-logo">
+            <div class="logo-icon">DC</div>
+            <div class="logo-text">DiGiConnect</div>
+        </div>
+        
+        <div class="offline-icon">📡</div>
+        <h1 class="offline-title">You're Offline</h1>
+        <p class="offline-text">
+            No internet connection detected. Don't worry — any cards you've saved to your wallet are still available offline. 
+            That's the DiGi promise: your data, always accessible.
+        </p>
+        <div class="offline-actions">
+            <a href="wallet.html" class="btn btn-primary btn-lg">Open Wallet</a>
+            <button onclick="location.reload()" class="btn btn-secondary btn-lg">Try Again</button>
+        </div>
+        
+        <p class="offline-hint">Your saved cards work without internet. Real trust, real reliability.</p>
+    </div>
+
+    <script>
+        // Auto-refresh when back online
+        window.addEventListener('online', function() {
+            location.reload();
+        });
+        
+        // Build stamp
+        window.DIGI_BUILD = "DiGiv5.0";
+    </script>
+</body>
+</html>

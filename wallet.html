@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wallet — DiGiConnect</title>
+    <meta name="description" content="Your saved business cards. Works offline.">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-96.png">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="My Wallet — DiGiConnect">
+    <meta property="og:description" content="Your saved business cards. Works offline.">
+    <meta property="og:image" content="icons/icon-512.png">
+    <meta property="og:type" content="website">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/3d-cards.css">
+    <style>
+        .wallet-hero {
+            padding: 8rem 0 2rem;
+            text-align: center;
+        }
+        
+        .wallet-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--color-bg-light);
+            border-radius: 12px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .wallet-stat {
+            text-align: center;
+        }
+        
+        .wallet-stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+        
+        .wallet-stat-label {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+        }
+        
+        .wallet-section {
+            padding: 2rem 0 4rem;
+        }
+        
+        .wallet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .wallet-empty {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--color-bg-light);
+            border-radius: 16px;
+            border: 2px dashed var(--color-border);
+        }
+        
+        .wallet-empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .wallet-empty h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .wallet-empty p {
+            color: var(--color-text-muted);
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Saved Card Styles */
+        .saved-card {
+            background: var(--color-bg-light);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+            transition: transform 0.2s ease;
+        }
+        
+        .saved-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .saved-card-header {
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .saved-card-header.electric { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+        .saved-card-header.plumbing { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+        .saved-card-header.bakery { background: linear-gradient(135deg, #ec4899 0%, #be185d 100%); }
+        .saved-card-header.consulting { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); }
+        .saved-card-header.default { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        
+        .saved-card-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+        
+        .saved-card-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .saved-card-name {
+            font-weight: 600;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .saved-card-title {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .saved-card-trust {
+            padding: 0.25rem 0.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: white;
+        }
+        
+        .saved-card-body {
+            padding: 1rem 1.25rem;
+        }
+        
+        .saved-card-contact {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            margin-bottom: 0.5rem;
+        }
+        
+        .saved-card-actions {
+            display: flex;
+            gap: 0.5rem;
+            padding: 1rem 1.25rem;
+            border-top: 1px solid var(--color-border);
+        }
+        
+        .saved-card-actions button {
+            flex: 1;
+            padding: 0.5rem;
+            font-size: 0.75rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-view {
+            background: var(--color-primary);
+            color: white;
+        }
+        
+        .btn-view:hover {
+            background: var(--color-primary-dark);
+        }
+        
+        .btn-remove {
+            background: var(--color-bg);
+            color: var(--color-text-muted);
+            border: 1px solid var(--color-border) !important;
+        }
+        
+        .btn-remove:hover {
+            background: var(--color-error);
+            color: white;
+            border-color: var(--color-error) !important;
+        }
+        
+        /* Offline indicator */
+        .offline-banner {
+            display: none;
+            background: var(--color-warning);
+            color: var(--color-bg);
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .offline-banner.show {
+            display: block;
+        }
+        
+        /* Search */
+        .wallet-search {
+            max-width: 400px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+        
+        .wallet-search input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            background: var(--color-bg-light);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            color: var(--color-text);
+            font-size: 1rem;
+        }
+        
+        .wallet-search input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+        
+        .wallet-search::before {
+            content: '🔍';
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-banner" id="offlineBanner">
+        📡 You're offline. Your saved cards are still available.
+    </div>
+    
+    <header class="header">
+        <nav class="nav">
+            <a href="/" class="logo" aria-label="DiGiConnect home">
+                <div class="logo-icon">DC</div>
+                <div class="logo-text"><span>DiGi</span><span>Connect</span></div>
+            </a>
+            <div class="nav-links">
+                <a href="./hub.html">Hub</a>
+                <a href="./alpha.html" style="background: #F5A623; color: #0A1628; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600;">🚀 Test Alpha</a>
+                <a href="./">Home</a>
+                <a href="./demo.html">Browse Cards</a>
+                <a href="./create.html" class="btn btn-primary">Create Card</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="wallet-hero">
+            <div class="container">
+                <h1>My Wallet</h1>
+                <p class="section-subtitle">Your saved business cards. Available offline.</p>
+                
+                <div class="wallet-stats">
+                    <div class="wallet-stat">
+                        <div class="wallet-stat-value" id="cardCount">0</div>
+                        <div class="wallet-stat-label">Saved Cards</div>
+                    </div>
+                    <div class="wallet-stat">
+                        <div class="wallet-stat-value" id="tierStatus">—</div>
+                        <div class="wallet-stat-label">Your Tier</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="wallet-section">
+            <div class="container">
+                <div class="wallet-search">
+                    <input type="text" id="searchInput" placeholder="Search saved cards..." oninput="filterCards()">
+                </div>
+                
+                <div id="walletContent">
+                    <!-- Cards will be rendered here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2025 DABT217™ — A Serious Jester Production 🃏</p>
+                <p class="footer-tagline">BE PROUD. BE BOLD. BE REAL.</p>
+            
+        <p id="build-stamp" style="margin-top:10px; font-size:12px; opacity:.7;"></p>
+      </div>
+        </div>
+    </footer>
+
+    <script>
+        // Demo card data (in production, this comes from IndexedDB/API)
+        const cardDatabase = {
+            'mesa-verde-electric': {
+                id: 'mesa-verde-electric',
+                name: 'Mesa Verde Electric',
+                title: 'Licensed Electrician',
+                icon: '⚡',
+                theme: 'electric',
+                trust: 487,
+                tier: 'Gold',
+                phone: '(303) 555-0147',
+                email: 'mike@mesaverdeelectric.com',
+                location: 'Denver, CO'
+            },
+            'rocky-mountain-plumbing': {
+                id: 'rocky-mountain-plumbing',
+                name: 'Rocky Mountain Plumbing',
+                title: '24/7 Emergency Service',
+                icon: '🔧',
+                theme: 'plumbing',
+                trust: 312,
+                tier: 'Silver',
+                phone: '(720) 555-0198',
+                email: 'service@rmplumbing.co',
+                location: 'Boulder, CO'
+            },
+            'sweet-sunrise-bakery': {
+                id: 'sweet-sunrise-bakery',
+                name: 'Sweet Sunrise Bakery',
+                title: 'Artisan Breads & Pastries',
+                icon: '🧁',
+                theme: 'bakery',
+                trust: 892,
+                tier: 'Diamond',
+                phone: '(970) 555-0234',
+                email: 'hello@sweetsunrise.bake',
+                location: 'Fort Collins, CO'
+            },
+            'apex-strategy': {
+                id: 'apex-strategy',
+                name: 'Apex Strategy Group',
+                title: 'Business Consulting',
+                icon: '📊',
+                theme: 'consulting',
+                trust: 534,
+                tier: 'Gold',
+                phone: '(303) 555-0789',
+                email: 'info@apexstrategy.co',
+                location: 'Denver, CO'
+            }
+        };
+        
+        // Get saved cards from localStorage
+        function getSavedCards() {
+            const saved = JSON.parse(localStorage.getItem('digiWallet') || '[]');
+            return saved.map(id => cardDatabase[id]).filter(Boolean);
+        }
+        
+        // Calculate user tier based on activity
+        function calculateTier(cardCount) {
+            if (cardCount >= 50) return 'Gold';
+            if (cardCount >= 20) return 'Silver';
+            if (cardCount >= 5) return 'Bronze';
+            return 'New';
+        }
+        
+        // Render wallet
+        function renderWallet(cards) {
+            const container = document.getElementById('walletContent');
+            const countEl = document.getElementById('cardCount');
+            const tierEl = document.getElementById('tierStatus');
+            
+            countEl.textContent = cards.length;
+            tierEl.textContent = calculateTier(cards.length);
+            
+            if (cards.length === 0) {
+                container.innerHTML = `
+                    <div class="wallet-empty">
+                        <div class="wallet-empty-icon">📇</div>
+                        <h3>No cards saved yet</h3>
+                        <p>Browse businesses and save cards to your wallet for quick access.</p>
+                        <a href="demo.html" class="btn btn-primary">Browse Cards</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = `
+                <div class="wallet-grid">
+                    ${cards.map(card => `
+                        <div class="saved-card" data-id="${card.id}" data-name="${card.name.toLowerCase()}">
+                            <div class="saved-card-header ${card.theme}">
+                                <div class="saved-card-avatar">${card.icon}</div>
+                                <div class="saved-card-info">
+                                    <div class="saved-card-name">${card.name}</div>
+                                    <div class="saved-card-title">${card.title}</div>
+                                </div>
+                                <div class="saved-card-trust">${card.tier}</div>
+                            </div>
+                            <div class="saved-card-body">
+                                <div class="saved-card-contact">📍 ${card.location}</div>
+                                <div class="saved-card-contact">📞 ${card.phone}</div>
+                            </div>
+                            <div class="saved-card-actions">
+                                <button class="btn-view" onclick="viewCard('${card.id}')">View Full Card</button>
+                                <button class="btn-remove" onclick="removeCard('${card.id}')">Remove</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+        
+        // Filter cards by search
+        function filterCards() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.saved-card');
+            
+            cards.forEach(card => {
+                const name = card.dataset.name;
+                card.style.display = name.includes(query) ? '' : 'none';
+            });
+        }
+        
+        // View card detail
+        function viewCard(id) {
+            window.location.href = `demo.html#${id}`;
+        }
+        
+        // Remove card from wallet
+        function removeCard(id) {
+            if (!confirm('Remove this card from your wallet?')) return;
+            
+            let saved = JSON.parse(localStorage.getItem('digiWallet') || '[]');
+            saved = saved.filter(cardId => cardId !== id);
+            localStorage.setItem('digiWallet', JSON.stringify(saved));
+            
+            renderWallet(getSavedCards());
+        }
+        
+        // Offline detection
+        function updateOnlineStatus() {
+            const banner = document.getElementById('offlineBanner');
+            if (!navigator.onLine) {
+                banner.classList.add('show');
+            } else {
+                banner.classList.remove('show');
+            }
+        }
+        
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateOnlineStatus();
+            renderWallet(getSavedCards());
+        });
+    </script>
+
+<script>
+  // Manual build stamp: change this when you upload new files
+  window.DIGI_BUILD = "DiGiv5.0";
+</script>
+<script>
+  (function () {
+    var el = document.getElementById("build-stamp");
+    if (!el) return;
+    el.textContent = "Build: " + (window.DIGI_BUILD || "dev");
+  })();
+</script>
+
+</body>
+</html>

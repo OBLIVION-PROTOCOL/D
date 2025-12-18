@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DiGiConnect Link Aggregator Demo - Linktree-style social links for your digital business card">
+  
+  <title>Link Aggregator Demo — DiGiConnect</title>
+  
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <meta name="theme-color" content="#0f172a" />
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/link-aggregator.css">
+  <link rel="stylesheet" href="css/3d-cards.css">
+  
+  <style>
+    .demo-hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      padding: 4rem 2rem;
+      text-align: center;
+      border-bottom: 4px solid;
+      border-image: linear-gradient(90deg, #06b6d4, #3b82f6, #8b5cf6) 1;
+    }
+
+    .demo-hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #06b6d4, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .demo-hero p {
+      font-size: 1.2rem;
+      color: #94a3b8;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .demo-section {
+      max-width: 1400px;
+      margin: 3rem auto;
+      padding: 0 2rem;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+
+    .demo-panel {
+      background: #1e293b;
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .demo-panel h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: #f1f5f9;
+    }
+
+    .card-preview-section {
+      margin-top: 3rem;
+      padding: 3rem 2rem;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border-top: 4px solid;
+      border-image: linear-gradient(90deg, #06b6d4, #3b82f6, #8b5cf6) 1;
+    }
+
+    .card-preview-section h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: #f1f5f9;
+    }
+
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .feature-list {
+      background: rgba(59, 130, 246, 0.1);
+      border-left: 4px solid #3b82f6;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin: 2rem 0;
+    }
+
+    .feature-list ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .feature-list li {
+      padding: 0.5rem 0;
+      color: #cbd5e1;
+    }
+
+    .feature-list li:before {
+      content: '✓';
+      color: #10b981;
+      font-weight: bold;
+      margin-right: 0.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .demo-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .demo-hero h1 {
+        font-size: 2rem;
+      }
+
+      .preview-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero Section -->
+  <div class="demo-hero">
+    <h1>🔗 Link Aggregator Demo</h1>
+    <p>
+      Linktree-style social link management built into DiGiConnect. 
+      Add all your social media, business links, and custom URLs to your 3D digital business card.
+    </p>
+  </div>
+
+  <!-- Demo Section -->
+  <div class="demo-section">
+    <div class="feature-list">
+      <h3>Features:</h3>
+      <ul>
+        <li>15+ pre-configured social platforms (Instagram, TikTok, LinkedIn, etc.)</li>
+        <li>Custom links with your own labels and icons</li>
+        <li>Drag-and-drop reordering</li>
+        <li>Up to 20 links per card</li>
+        <li>Beautiful platform-specific colors and icons</li>
+        <li>Integrated into 3D card experience</li>
+      </ul>
+    </div>
+
+    <div class="demo-grid">
+      <!-- Link Manager -->
+      <div class="demo-panel">
+        <h2>📎 Link Manager</h2>
+        <p style="color: #94a3b8; margin-bottom: 1.5rem;">
+          Add and organize your links below. They'll appear on your card preview in real-time.
+        </p>
+        <div id="linkManagerDemo"></div>
+      </div>
+
+      <!-- Link Preview -->
+      <div class="demo-panel">
+        <h2>👁️ Link Preview</h2>
+        <p style="color: #94a3b8; margin-bottom: 1.5rem;">
+          See how your links will appear on different card sizes and styles.
+        </p>
+        <div id="linkPreview" style="min-height: 300px;">
+          <div style="text-align: center; padding: 3rem; color: #64748b;">
+            <p>Add some links to see the preview!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card Preview Section -->
+  <div class="card-preview-section">
+    <h2>🎴 Cards with Links</h2>
+    <div class="preview-grid" id="cardGrid"></div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer" style="margin-top: 4rem;">
+    <div class="container">
+      <p style="text-align: center; color: #64748b;">
+        <a href="./hub.html" style="color: #3b82f6; text-decoration: none;">← Back to Hub</a>
+        &nbsp;|&nbsp;
+        <a href="./index.html" style="color: #3b82f6; text-decoration: none;">Home</a>
+        &nbsp;|&nbsp;
+        <a href="./demo-v5.html" style="color: #3b82f6; text-decoration: none;">Card Types Demo</a>
+      </p>
+      <p style="text-align: center; color: #475569; font-size: 0.875rem; margin-top: 1rem;">
+        DiGiConnect v5.0 — Be Bold Be Proud Be Real
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/link-manager.js"></script>
+  <script src="js/3d-cards.js"></script>
+  
+  <script>
+    // Initialize link manager
+    const linkManager = window.DiGiLinkManager.init('linkManagerDemo', {
+      maxLinks: 20,
+      allowReorder: true,
+      onChange: (links) => {
+        updateLinkPreview(links);
+        updateCardPreviews(links);
+      },
+      initialLinks: [
+        {
+          platform: 'instagram',
+          url: 'https://instagram.com/digiconnect',
+          label: 'Instagram',
+          icon: '📷',
+          color: '#E4405F'
+        },
+        {
+          platform: 'tiktok',
+          url: 'https://tiktok.com/@digiconnect',
+          label: 'TikTok',
+          icon: '🎵',
+          color: '#000000'
+        },
+        {
+          platform: 'website',
+          url: 'https://digiconnect.com',
+          label: 'Website',
+          icon: '🌐',
+          color: '#666666'
+        }
+      ]
+    });
+
+    // Update link preview
+    function updateLinkPreview(links) {
+      const preview = document.getElementById('linkPreview');
+      
+      if (links.length === 0) {
+        preview.innerHTML = `
+          <div style="text-align: center; padding: 3rem; color: #64748b;">
+            <p>Add some links to see the preview!</p>
+          </div>
+        `;
+        return;
+      }
+
+      preview.innerHTML = `
+        <div style="margin-bottom: 2rem;">
+          <h4 style="color: #94a3b8; font-size: 0.875rem; margin-bottom: 1rem;">COMPACT (Card View)</h4>
+          ${window.DiGiLinkManager.createLinkDisplay(links, { maxVisible: 6, size: 'small' })}
+        </div>
+        <div style="margin-bottom: 2rem;">
+          <h4 style="color: #94a3b8; font-size: 0.875rem; margin-bottom: 1rem;">MEDIUM (Profile View)</h4>
+          ${window.DiGiLinkManager.createLinkDisplay(links, { maxVisible: 10, size: 'medium' })}
+        </div>
+        <div>
+          <h4 style="color: #94a3b8; font-size: 0.875rem; margin-bottom: 1rem;">LARGE (Full View)</h4>
+          ${window.DiGiLinkManager.createLinkDisplay(links, { maxVisible: 20, size: 'large' })}
+        </div>
+      `;
+    }
+
+    // Update 3D card previews
+    function updateCardPreviews(links) {
+      const cardGrid = document.getElementById('cardGrid');
+      
+      const sampleCards = [
+        {
+          type: 'profile',
+          orientation: 'vertical',
+          name: 'Sarah Martinez',
+          title: 'Creative Director & Brand Strategist',
+          location: 'Austin, TX',
+          avatar: 'SM',
+          trustScore: 892,
+          description: 'Helping brands tell authentic stories that connect with real humans.',
+          links: links
+        },
+        {
+          type: 'business',
+          orientation: 'horizontal',
+          name: 'Local Roots Coffee',
+          title: 'Artisan Coffee & Community Hub',
+          location: 'Portland, OR',
+          avatar: '☕',
+          trustScore: 745,
+          description: 'Small batch roasting, big community impact. Family-owned since 2015.',
+          links: links
+        },
+        {
+          type: 'client',
+          orientation: 'horizontal',
+          name: 'Mike Thompson',
+          title: 'Verified Customer • Gold Tier',
+          location: 'Denver, CO',
+          avatar: 'MT',
+          trustScore: 654,
+          description: 'Supporting local businesses and sharing honest reviews since 2020.',
+          links: links
+        }
+      ];
+
+      cardGrid.innerHTML = sampleCards.map((card, i) => 
+        `<div id="card${i}"></div>`
+      ).join('');
+
+      // Render cards
+      sampleCards.forEach((card, i) => {
+        const container = document.getElementById(`card${i}`);
+        if (container) {
+          window.DiGiCards.renderCard(container, card);
+        }
+      });
+    }
+
+    // Initial render
+    updateLinkPreview(linkManager.getLinks());
+    updateCardPreviews(linkManager.getLinks());
+
+    // Build stamp
+    window.DIGI_BUILD = 'DiGiv5.0';
+    console.log('✓ DiGiConnect Link Aggregator Demo loaded:', window.DIGI_BUILD);
+  </script>
+</body>
+</html>

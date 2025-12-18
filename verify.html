@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Manual verification for DiGiConnect - Upload documents to verify your business or identity">
+  
+  <title>Manual Verification — DiGiConnect</title>
+  
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <meta name="theme-color" content="#0f172a" />
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <style>
+    .verify-hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      padding: 4rem 2rem 2rem;
+      text-align: center;
+      border-bottom: 4px solid;
+      border-image: linear-gradient(90deg, #10b981, #3b82f6) 1;
+    }
+
+    .verify-hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #10b981, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .verify-container {
+      max-width: 800px;
+      margin: 3rem auto;
+      padding: 0 2rem;
+    }
+
+    .verify-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .step-card {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .step-number {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #10b981, #3b82f6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      margin: 0 auto 1rem;
+    }
+
+    .step-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #f1f5f9;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-description {
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+
+    .verify-form {
+      background: #1e293b;
+      border-radius: 16px;
+      padding: 2.5rem;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+    }
+
+    .form-section-title {
+      font-size: 1.3rem;
+      color: #f1f5f9;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      color: #cbd5e1;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .form-label.required:after {
+      content: '*';
+      color: #ef4444;
+      margin-left: 0.25rem;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 0.875rem;
+      background: #0f172a;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      color: #f1f5f9;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    }
+
+    .form-textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .form-hint {
+      color: #64748b;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+    }
+
+    .upload-area {
+      border: 2px dashed rgba(255,255,255,0.2);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      background: rgba(16, 185, 129, 0.05);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .upload-area:hover,
+    .upload-area.dragover {
+      border-color: #10b981;
+      background: rgba(16, 185, 129, 0.1);
+    }
+
+    .upload-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .upload-text {
+      color: #cbd5e1;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .upload-hint {
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .uploaded-files {
+      margin-top: 1.5rem;
+    }
+
+    .uploaded-file {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: #0f172a;
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .file-icon {
+      font-size: 1.5rem;
+    }
+
+    .file-info {
+      flex: 1;
+    }
+
+    .file-name {
+      color: #f1f5f9;
+      font-weight: 500;
+    }
+
+    .file-size {
+      color: #64748b;
+      font-size: 0.85rem;
+    }
+
+    .file-remove {
+      background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .file-remove:hover {
+      background: rgba(239, 68, 68, 0.2);
+    }
+
+    .verification-types {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .verification-type {
+      position: relative;
+    }
+
+    .verification-type input {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .verification-type label {
+      display: block;
+      padding: 1.25rem;
+      background: #0f172a;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .verification-type input:checked + label {
+      border-color: #10b981;
+      background: rgba(16, 185, 129, 0.1);
+    }
+
+    .verification-type label .icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .verification-type label .name {
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 1.25rem;
+      background: linear-gradient(135deg, #10b981, #3b82f6);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .success-message,
+    .error-message {
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      display: none;
+    }
+
+    .success-message {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #10b981;
+    }
+
+    .error-message {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+    }
+
+    .info-box {
+      background: rgba(59, 130, 246, 0.1);
+      border-left: 4px solid #3b82f6;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    .info-box h3 {
+      color: #3b82f6;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .info-box ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .info-box li {
+      padding: 0.5rem 0;
+      color: #cbd5e1;
+      position: relative;
+      padding-left: 1.5rem;
+    }
+
+    .info-box li:before {
+      content: '✓';
+      color: #10b981;
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+      .verify-steps {
+        grid-template-columns: 1fr;
+      }
+
+      .verify-hero h1 {
+        font-size: 2rem;
+      }
+
+      .verify-form {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <nav class="nav">
+      <a href="/" class="logo">
+        <div class="logo-icon">DC</div>
+        <div class="logo-text"><span>DiGi</span><span>Connect</span></div>
+      </a>
+      <div class="nav-links">
+        <a href="./hub.html">Hub</a>
+        <a href="./alpha.html" style="background: #F5A623; color: #0A1628; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600;">🚀 Test Alpha</a>
+        <a href="./">Home</a>
+        <a href="./create.html" class="btn btn-primary">Create Card</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <div class="verify-hero">
+    <h1>✅ Manual Verification</h1>
+    <p style="color: #94a3b8; font-size: 1.1rem; max-width: 600px; margin: 1rem auto;">
+      Upload documents to verify your business or identity. Build trust the right way.
+    </p>
+  </div>
+
+  <!-- Main Content -->
+  <div class="verify-container">
+    <!-- Steps -->
+    <div class="verify-steps">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <div class="step-title">Choose Type</div>
+        <div class="step-description">Select verification type</div>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <div class="step-title">Upload Docs</div>
+        <div class="step-description">Submit your documents</div>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <div class="step-number">3</div>
+        <div class="step-title">Get Verified</div>
+        <div class="step-description">We'll review within 48h</div>
+      </div>
+    </div>
+
+    <!-- Info Box -->
+    <div class="info-box">
+      <h3>📋 Why Manual Verification?</h3>
+      <ul>
+        <li>Perfect for freelancers and small businesses</li>
+        <li>Build trust without expensive automated systems</li>
+        <li>Human review ensures fairness</li>
+        <li>Boost your trust score with verified credentials</li>
+      </ul>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div class="success-message" id="successMessage">
+      <strong>✓ Verification submitted successfully!</strong><br>
+      We'll review your documents within 48 hours and update your trust score.
+    </div>
+
+    <div class="error-message" id="errorMessage">
+      <strong>⚠ Error submitting verification</strong><br>
+      Please check your information and try again.
+    </div>
+
+    <!-- Verification Form -->
+    <form class="verify-form" id="verifyForm">
+      <!-- Verification Type -->
+      <div class="form-section">
+        <h2 class="form-section-title">📝 Verification Type</h2>
+        <div class="verification-types">
+          <div class="verification-type">
+            <input type="radio" id="type-business" name="verificationType" value="business" required>
+            <label for="type-business">
+              <span class="icon">🏢</span>
+              <span class="name">Business License</span>
+            </label>
+          </div>
+          <div class="verification-type">
+            <input type="radio" id="type-freelance" name="verificationType" value="freelance">
+            <label for="type-freelance">
+              <span class="icon">💼</span>
+              <span class="name">Freelancer</span>
+            </label>
+          </div>
+          <div class="verification-type">
+            <input type="radio" id="type-identity" name="verificationType" value="identity">
+            <label for="type-identity">
+              <span class="icon">🆔</span>
+              <span class="name">ID Verification</span>
+            </label>
+          </div>
+          <div class="verification-type">
+            <input type="radio" id="type-professional" name="verificationType" value="professional">
+            <label for="type-professional">
+              <span class="icon">📜</span>
+              <span class="name">Professional</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Personal/Business Info -->
+      <div class="form-section">
+        <h2 class="form-section-title">👤 Your Information</h2>
+        
+        <div class="form-group">
+          <label class="form-label required" for="fullName">Full Name / Business Name</label>
+          <input type="text" id="fullName" class="form-input" required placeholder="Enter your name or business name">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label required" for="email">Email Address</label>
+          <input type="email" id="email" class="form-input" required placeholder="your@email.com">
+          <div class="form-hint">We'll send verification updates here</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="phone">Phone Number</label>
+          <input type="tel" id="phone" class="form-input" placeholder="+1 (555) 123-4567">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="location">Location</label>
+          <input type="text" id="location" class="form-input" placeholder="City, State">
+        </div>
+      </div>
+
+      <!-- Document Upload -->
+      <div class="form-section">
+        <h2 class="form-section-title">📎 Upload Documents</h2>
+        
+        <div class="upload-area" id="uploadArea">
+          <div class="upload-icon">📄</div>
+          <div class="upload-text">Click to upload or drag and drop</div>
+          <div class="upload-hint">PDF, PNG, JPG up to 10MB each</div>
+          <input type="file" id="fileInput" class="file-input" multiple accept=".pdf,.png,.jpg,.jpeg">
+        </div>
+
+        <div class="uploaded-files" id="uploadedFiles"></div>
+
+        <div class="form-hint" style="margin-top: 1rem;">
+          <strong>Accepted documents:</strong> Business license, Tax ID, Professional license, Government ID, Portfolio/resume
+        </div>
+      </div>
+
+      <!-- Additional Notes -->
+      <div class="form-section">
+        <h2 class="form-section-title">💬 Additional Information</h2>
+        
+        <div class="form-group">
+          <label class="form-label" for="notes">Additional Notes (Optional)</label>
+          <textarea id="notes" class="form-textarea" placeholder="Any additional information to help with verification..."></textarea>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn-submit" id="submitBtn">
+        Submit for Verification
+      </button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p style="text-align: center; color: #64748b;">
+        <a href="hub.html" style="color: #3b82f6; text-decoration: none;">← Back to Hub</a>
+      </p>
+      <p style="text-align: center; color: #475569; font-size: 0.875rem; margin-top: 1rem;">
+        DiGiConnect v5.0 — BE PROUD. BE BOLD. BE REAL.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // File upload handling
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileInput');
+    const uploadedFiles = document.getElementById('uploadedFiles');
+    const verifyForm = document.getElementById('verifyForm');
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage = document.getElementById('errorMessage');
+
+    let files = [];
+
+    // Click to upload
+    uploadArea.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    // Drag and drop
+    uploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadArea.classList.add('dragover');
+    });
+
+    uploadArea.addEventListener('dragleave', () => {
+      uploadArea.classList.remove('dragover');
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove('dragover');
+      handleFiles(e.dataTransfer.files);
+    });
+
+    // File input change
+    fileInput.addEventListener('change', (e) => {
+      handleFiles(e.target.files);
+    });
+
+    // Handle uploaded files
+    function handleFiles(newFiles) {
+      Array.from(newFiles).forEach(file => {
+        if (file.size > 10 * 1024 * 1024) {
+          alert(`File "${file.name}" is too large. Maximum size is 10MB.`);
+          return;
+        }
+
+        files.push(file);
+        addFileToList(file);
+      });
+    }
+
+    // Add file to display list
+    function addFileToList(file) {
+      const fileId = 'file_' + Date.now() + '_' + Math.random();
+      const fileSize = (file.size / 1024).toFixed(1) + ' KB';
+      
+      const fileElement = document.createElement('div');
+      fileElement.className = 'uploaded-file';
+      fileElement.dataset.fileId = fileId;
+      fileElement.innerHTML = `
+        <div class="file-icon">📄</div>
+        <div class="file-info">
+          <div class="file-name">${file.name}</div>
+          <div class="file-size">${fileSize}</div>
+        </div>
+        <button type="button" class="file-remove" onclick="removeFile('${fileId}')">Remove</button>
+      `;
+      
+      uploadedFiles.appendChild(fileElement);
+    }
+
+    // Remove file
+    window.removeFile = function(fileId) {
+      const fileElement = document.querySelector(`[data-file-id="${fileId}"]`);
+      if (fileElement) {
+        const fileName = fileElement.querySelector('.file-name').textContent;
+        files = files.filter(f => f.name !== fileName);
+        fileElement.remove();
+      }
+    };
+
+    // Form submission
+    verifyForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Hide previous messages
+      successMessage.style.display = 'none';
+      errorMessage.style.display = 'none';
+
+      // Validate
+      const verificationType = document.querySelector('input[name="verificationType"]:checked');
+      if (!verificationType) {
+        alert('Please select a verification type');
+        return;
+      }
+
+      if (files.length === 0) {
+        alert('Please upload at least one document');
+        return;
+      }
+
+      // Demo mode - just show success
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // Show success
+      successMessage.style.display = 'block';
+      submitBtn.textContent = 'Submitted ✓';
+      
+      // Scroll to success message
+      successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      // In production, this would send data to backend:
+      // const formData = new FormData();
+      // formData.append('verificationType', verificationType.value);
+      // formData.append('fullName', document.getElementById('fullName').value);
+      // formData.append('email', document.getElementById('email').value);
+      // files.forEach((file, i) => formData.append(`file${i}`, file));
+      // await fetch('/api/verification/submit', { method: 'POST', body: formData });
+    });
+
+    // Build stamp
+    window.DIGI_BUILD = 'DiGiv5.0';
+    console.log('✓ DiGiConnect Verification Page loaded:', window.DIGI_BUILD);
+  </script>
+</body>
+</html>

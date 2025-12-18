@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust Score System — DiGiConnect</title>
+    <meta name="description" content="Understanding the DiGi Trust Score: A redemption-based rating system that values recovery over perfection.">
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-96.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        .trust-hero {
+            background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+            padding: 6rem 0 4rem;
+            text-align: center;
+            color: white;
+        }
+        
+        .trust-hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        .trust-hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .trust-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        
+        .trust-section {
+            margin-bottom: 4rem;
+        }
+        
+        .trust-section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--color-text);
+        }
+        
+        .trust-section h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--color-text);
+        }
+        
+        .trust-section p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--color-text-secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .trust-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--color-bg-light);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .trust-table th,
+        .trust-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--color-border);
+        }
+        
+        .trust-table th {
+            background: var(--color-primary);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .trust-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .trust-code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        .trust-highlight {
+            background: var(--color-bg-light);
+            border-left: 4px solid var(--color-primary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        
+        .trust-highlight strong {
+            color: var(--color-primary);
+        }
+        
+        .tier-badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        
+        .tier-new { background: #94a3b8; color: white; }
+        .tier-bronze { background: linear-gradient(135deg, #b45309 0%, #92400e 100%); color: white; }
+        .tier-silver { background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%); color: white; }
+        .tier-gold { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; }
+        .tier-diamond { background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); color: white; }
+        .tier-legend { background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%); color: white; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="./" class="logo" aria-label="DiGiConnect home">
+                <div class="logo-icon">DC</div>
+                <div class="logo-text"><span>DiGi</span><span>Connect</span></div>
+            </a>
+
+            <div class="nav-links" role="navigation" aria-label="Primary">
+                <a href="./hub.html">Hub</a>
+                <a href="./#how-it-works">How It Works</a>
+                <a href="./#pricing">Pricing</a>
+                <a href="./blog.html">Updates</a>
+                <a href="./trust-score.html" style="color: var(--color-primary);">Trust Score</a>
+                <a href="./alpha.html" class="btn" style="background: #F5A623; color: #0A1628;">🚀 Test Alpha</a>
+                <a href="./demo.html" class="btn btn-secondary">View Demo</a>
+                <a href="./create.html" class="btn btn-primary">Create Card</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="trust-hero">
+            <h1>DiGi Trust Score System</h1>
+            <p><strong>Redemption-Based Trust Rating</strong><br>A business that handles problems well is MORE trustworthy than one that's never been tested.</p>
+        </div>
+
+        <div class="trust-content">
+            <!-- Executive Summary -->
+            <section class="trust-section">
+                <h2>Executive Summary</h2>
+                <p>The DiGi Trust Score is a multi-factor rating system that evaluates trustworthiness based not just on performance, but on <strong>response to challenges</strong>. Unlike traditional rating systems that simply average reviews, DiGi Trust considers how businesses and individuals handle problems, recover from mistakes, and grow over time.</p>
+                
+                <div class="trust-highlight">
+                    <p><strong>Core Philosophy:</strong> A business that handles a problem well is MORE trustworthy than one that's never been tested.</p>
+                </div>
+            </section>
+
+            <!-- Trust Score Components -->
+            <section class="trust-section">
+                <h2>Part 1: Trust Score Components</h2>
+                
+                <h3>Score Calculation Overview</h3>
+                <div class="trust-code-block">
+TRUST SCORE = Base Score + Activity Score + Reputation Score 
+              + Network Score + Recovery Score - Deductions
+                </div>
+                
+                <p><strong>Score Range:</strong> 0 - 1000+<br>
+                <strong>Display:</strong> Numeric score + Tier badge</p>
+
+                <h3>Tier Thresholds</h3>
+                <table class="trust-table">
+                    <thead>
+                        <tr>
+                            <th>Tier</th>
+                            <th>Points</th>
+                            <th>Badge</th>
+                            <th>Meaning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tier-badge tier-new">🆕 New</span></td>
+                            <td>0-49</td>
+                            <td>🆕</td>
+                            <td>Just joined, building trust</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tier-badge tier-bronze">🥉 Bronze</span></td>
+                            <td>50-100</td>
+                            <td>🥉</td>
+                            <td>Establishing presence</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tier-badge tier-silver">🥈 Silver</span></td>
+                            <td>101-300</td>
+                            <td>🥈</td>
+                            <td>Active and reliable</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tier-badge tier-gold">⭐ Gold</span></td>
+                            <td>301-750</td>
+                            <td>⭐</td>
+                            <td>Highly trusted</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tier-badge tier-diamond">💎 Diamond</span></td>
+                            <td>751-999</td>
+                            <td>💎</td>
+                            <td>Exceptional trust</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tier-badge tier-legend">👑 Legend</span></td>
+                            <td>1000+</td>
+                            <td>👑</td>
+                            <td>Pinnacle of trust</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Positive Score Factors</h3>
+                
+                <h4>Verification Points (One-Time)</h4>
+                <table class="trust-table">
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Points</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Email verified</td><td>+10</td><td>Required for account</td></tr>
+                        <tr><td>Phone verified</td><td>+25</td><td>SMS confirmation</td></tr>
+                        <tr><td>Business documents verified</td><td>+50</td><td>Business accounts only</td></tr>
+                        <tr><td>Community verified</td><td>+35</td><td>Submit for Review pathway</td></tr>
+                        <tr><td>Identity verified</td><td>+40</td><td>Government ID verification</td></tr>
+                        <tr><td>Professional license verified</td><td>+30</td><td>Industry-specific</td></tr>
+                    </tbody>
+                </table>
+                <p><strong>Maximum from verification:</strong> ~190 points</p>
+
+                <h4>Recovery Points (The Differentiator)</h4>
+                <table class="trust-table">
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Points</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Response to negative review &lt; 24 hours</td><td>+15</td><td>Speed matters</td></tr>
+                        <tr><td>Response to negative review &lt; 48 hours</td><td>+10</td><td>Still good</td></tr>
+                        <tr><td>Acknowledged issue in response</td><td>+10</td><td>Taking responsibility</td></tr>
+                        <tr><td>Offered solution in response</td><td>+15</td><td>Proactive resolution</td></tr>
+                        <tr><td>Issue fully resolved</td><td>+25</td><td>Completion matters</td></tr>
+                        <tr><td>Client updated review positively</td><td>+30</td><td>Best outcome</td></tr>
+                        <tr><td>No repeat of same issue type</td><td>+20</td><td>Learning demonstrated</td></tr>
+                        <tr><td>Recovery streak (3+ resolved issues)</td><td>+50 bonus</td><td>Pattern of excellence</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Recovery System -->
+            <section class="trust-section">
+                <h2>Part 2: The Recovery System</h2>
+                
+                <h3>Recovery Philosophy</h3>
+                <p>Traditional platforms treat negative reviews as permanent damage to be buried under positive ones. DiGiConnect treats negative reviews as <strong>opportunities to demonstrate trustworthiness</strong>.</p>
+                
+                <div class="trust-highlight">
+                    <p><strong>Key Principle:</strong> How you handle problems reveals more about your character than how you handle success.</p>
+                </div>
+
+                <h3>Recovery Calculation Example</h3>
+                <div class="trust-code-block">
+SCENARIO: Business receives 1-star review
+
+Initial Impact: -30 points
+
+Recovery Timeline:
+├── Hour 4: Business responds professionally
+│   └── Response < 24 hours: +15 points
+│   └── Acknowledged issue: +10 points
+│
+├── Day 2: Business offers solution
+│   └── Offered resolution: +15 points
+│
+├── Day 5: Issue resolved
+│   └── Full resolution: +25 points
+│
+├── Day 7: Client updates review to 4 stars
+│   └── Positive update: +30 points
+│
+├── Month 3: No repeat of issue
+│   └── Learning demonstrated: +20 points
+
+FINAL CALCULATION:
+├── Initial impact: -30 points
+├── Recovery actions: +115 points
+├── NET RESULT: +85 points
+│
+└── Business is STRONGER than before the issue
+                </div>
+
+                <h3>Recovery Badges</h3>
+                <table class="trust-table">
+                    <thead>
+                        <tr>
+                            <th>Badge</th>
+                            <th>Requirement</th>
+                            <th>Display</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>🏆 Recovery Champion</td><td>5+ issues resolved positively</td><td>Profile badge</td></tr>
+                        <tr><td>⚡ Lightning Response</td><td>Avg response &lt; 4 hours</td><td>Profile badge</td></tr>
+                        <tr><td>🤝 Resolution Master</td><td>95%+ resolution rate</td><td>Profile badge</td></tr>
+                        <tr><td>💪 Comeback Story</td><td>Turned 1-star into 5-star</td><td>Profile badge</td></tr>
+                        <tr><td>🎯 Follow-Through</td><td>100% promise delivery</td><td>Profile badge</td></tr>
+                        <tr><td>📈 Growth Mindset</td><td>Consistent improvement on feedback</td><td>Profile badge</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Verification Tiers -->
+            <section class="trust-section">
+                <h2>Part 2.5: Verification Tiers</h2>
+                
+                <h3>Verification Philosophy</h3>
+                <p>Every user starts with email verification (required for platform access). But trust grows through additional verification steps. Each level unlocks better badges, higher trust points, and increased visibility.</p>
+                
+                <div class="trust-highlight">
+                    <p><strong>Core Principle:</strong> Email gets you in. Phone makes you verified. Full verification makes you trusted.</p>
+                </div>
+
+                <h3>Verification Levels</h3>
+                <table class="trust-table">
+                    <thead>
+                        <tr>
+                            <th>Level</th>
+                            <th>Requirements</th>
+                            <th>Badge</th>
+                            <th>Trust Points</th>
+                            <th>Benefits</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Basic</strong></td>
+                            <td>Email verified</td>
+                            <td>No badge</td>
+                            <td>+10 points</td>
+                            <td>Platform access only</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Verified</strong></td>
+                            <td>Email + Phone</td>
+                            <td>✓ Blue checkmark</td>
+                            <td>+35 points</td>
+                            <td>Can add ✓ to cards, higher search ranking</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Business Verified</strong></td>
+                            <td>Email + Phone + Business Docs</td>
+                            <td>✓ Gold checkmark</td>
+                            <td>+85 points</td>
+                            <td>Premium badge, priority support, event access</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Identity Verified</strong></td>
+                            <td>Email + Phone + Government ID</td>
+                            <td>✓ Purple checkmark</td>
+                            <td>+75 points</td>
+                            <td>High-trust interactions, exclusive features</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fully Verified</strong></td>
+                            <td>All above + Professional License (if applicable)</td>
+                            <td>✓ Diamond badge</td>
+                            <td>+120 points</td>
+                            <td>Maximum trust, VIP features, partnership opportunities</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Badge Display on Cards</h3>
+                <p>Verification badges appear on your cards and profile, giving clients instant confidence:</p>
+                
+                <div class="trust-code-block">
+BASIC (No Badge):
+┌─────────────────────┐
+│ John's Plumbing     │
+│ Professional Plumber│
+│ Trust Score: 52 🥉  │
+└─────────────────────┘
+
+VERIFIED (Blue ✓):
+┌─────────────────────┐
+│ Sarah's Design ✓    │
+│ Graphic Designer    │
+│ Trust Score: 127 🥈 │
+└─────────────────────┘
+
+BUSINESS VERIFIED (Gold ✓):
+┌─────────────────────┐
+│ Martinez Law ✓      │
+│ Family Law Firm     │
+│ Trust Score: 487 ⭐ │
+└─────────────────────┘
+
+FULLY VERIFIED (Diamond ✓):
+┌─────────────────────┐
+│ Dr. Chen MD ✓       │
+│ Board Certified     │
+│ Trust Score: 823 💎 │
+└─────────────────────┘
+                </div>
+
+                <h3>Card Orientation Options</h3>
+                <p>Cards can be displayed horizontally or vertically based on user preference, with one exception:</p>
+                
+                <div class="trust-highlight">
+                    <p><strong>DiGi ID / Passport Cards:</strong> Always vertical (portrait orientation)</p>
+                    <p><strong>Business Cards:</strong> Horizontal or vertical (user choice)</p>
+                    <p><strong>Client Cards:</strong> Horizontal or vertical (user choice)</p>
+                </div>
+                
+                <p><strong>Why DiGi ID is always vertical:</strong> Your DiGi ID is your digital passport—it follows the universal standard of ID cards and passports being portrait-oriented. This creates instant recognition and consistency across the platform.</p>
+
+                <h3>Verification Process</h3>
+                <table class="trust-table">
+                    <thead>
+                        <tr>
+                            <th>Step</th>
+                            <th>Process</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1. Email</td><td>Click verification link sent to email</td><td>Instant</td></tr>
+                        <tr><td>2. Phone</td><td>Enter code sent via SMS</td><td>2 minutes</td></tr>
+                        <tr><td>3. Business</td><td>Upload business license, EIN, or registration</td><td>1-3 business days</td></tr>
+                        <tr><td>4. Identity</td><td>Upload government ID + selfie verification</td><td>1-2 business days</td></tr>
+                        <tr><td>5. Professional</td><td>Upload professional license/certification</td><td>2-5 business days</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Verification Badge Visibility</h3>
+                <p>Once verified, your badge appears:</p>
+                <ul>
+                    <li>✓ Next to your name on all cards</li>
+                    <li>✓ In search results and directories</li>
+                    <li>✓ On your profile page</li>
+                    <li>✓ In the Trust Transparency Database</li>
+                    <li>✓ At event check-ins and business interactions</li>
+                </ul>
+            </section>
+
+            <!-- Strike System -->
+            <section class="trust-section">
+                <h2>Part 3: The Strike System</h2>
+                
+                <h3>Strike Philosophy</h3>
+                <p>Strikes are not punishment—they are <strong>protection and teaching tools</strong>.</p>
+                <ul>
+                    <li>Protection for the community from bad actors</li>
+                    <li>Teaching opportunity for those who made mistakes</li>
+                    <li>Path to redemption for those who truly change</li>
+                </ul>
+
+                <h3>Strike One: "Learning Moment"</h3>
+                <p><strong>Consequence:</strong> 1-year ban<br>
+                <strong>Return Conditions:</strong> Submit appeal, start at Bronze, 6-month probation<br>
+                <strong>Public Record:</strong> None (first chance given cleanly)</p>
+
+                <h3>Strike Two: "Silly Mistake"</h3>
+                <p><strong>Consequence:</strong> 2-year ban<br>
+                <strong>Return Conditions:</strong> Detailed appeal, community vouching (3 users)<br>
+                <strong>Public Record:</strong> 😅 Visible for 1 year after return</p>
+
+                <h3>Strike Three: "Serious Mistake"</h3>
+                <p><strong>Consequence:</strong> Permanent ban (exceptional return path exists)<br>
+                <strong>Return Conditions:</strong> 3+ years, exceptional change demonstrated, review board<br>
+                <strong>Public Record:</strong> 🚫 Visible for 3+ years minimum</p>
+            </section>
+
+            <!-- Transparency -->
+            <section class="trust-section">
+                <h2>Part 4: The Transparency Database</h2>
+                
+                <p>The Trust Transparency Database allows anyone to search for the trust status and history of DiGi accounts. This serves due diligence for business relationships, event entry verification, and community protection.</p>
+                
+                <h3>What's Searchable</h3>
+                <table class="trust-table">
+                    <thead>
+                        <tr>
+                            <th>Information</th>
+                            <th>Who Can See</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Current status (Active/Banned)</td><td>Public</td><td>Always</td></tr>
+                        <tr><td>Trust tier</td><td>Public</td><td>Always</td></tr>
+                        <tr><td>Verification level</td><td>Public</td><td>Always</td></tr>
+                        <tr><td>"Silly Mistake" record</td><td>Public</td><td>1 year after return</td></tr>
+                        <tr><td>"Serious Mistake" record</td><td>Public</td><td>3 years minimum</td></tr>
+                        <tr><td>Specific violation details</td><td>Not shown</td><td>Privacy protected</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- The Promises -->
+            <section class="trust-section">
+                <h2>Part 5: Our Promises</h2>
+                
+                <h3>The Second Chance Promise</h3>
+                <div class="trust-highlight">
+                    <p><strong>We believe in growth. We believe in change. We believe in redemption.</strong></p>
+                    <p>Our trust system is not designed to punish forever. It's designed to protect—and to teach.</p>
+                    <ul>
+                        <li><strong>STRIKE ONE: LEARN</strong> — Take a year to reflect. Return and rebuild.</li>
+                        <li><strong>STRIKE TWO: REALLY LEARN</strong> — Take two years. Do the work. Prove you've changed.</li>
+                        <li><strong>STRIKE THREE: EXCEPTIONAL CHANGE</strong> — Demonstrate transformation. Earn community trust.</li>
+                    </ul>
+                    <p>We will always leave a path to redemption for those willing to walk it.</p>
+                </div>
+
+                <h3>The Unbuyable Promise</h3>
+                <div class="trust-highlight">
+                    <p><strong>We will NEVER:</strong></p>
+                    <ul>
+                        <li>✗ Sell verification status for money</li>
+                        <li>✗ Accept payment to improve ratings</li>
+                        <li>✗ Allow purchased reviews to stand</li>
+                        <li>✗ Let money override merit</li>
+                        <li>✗ Reduce penalties for payment</li>
+                    </ul>
+                    <p><strong>No amount of money will ever buy trust on DiGi.</strong></p>
+                    <p>Trust is earned through verification, reviews, partners, recovery, and time.</p>
+                    <p><em>If we ever break this promise, we deserve to fail.</em></p>
+                </div>
+            </section>
+
+            <!-- Human Initiative -->
+            <section class="trust-section">
+                <h2>Part 5.5: The Human Initiative</h2>
+                <h3>People-run, AI-assisted</h3>
+                
+                <div class="trust-highlight">
+                    <p><strong>DiGiConnect is built on a simple belief:</strong></p>
+                    <p style="font-size: 1.1rem; margin: 1rem 0;">Humans can't replace AI, and AI can't replace humans.</p>
+                </div>
+
+                <h3>Our Approach</h3>
+                <p><strong>AI provides:</strong></p>
+                <ul>
+                    <li>Structure and consistency</li>
+                    <li>Scoring logic and calculations</li>
+                    <li>Scale and automation</li>
+                    <li>Pattern detection and analysis</li>
+                </ul>
+
+                <p><strong>Humans provide:</strong></p>
+                <ul>
+                    <li>Judgment and context</li>
+                    <li>Final authority on decisions</li>
+                    <li>Discretionary actions when needed</li>
+                    <li>Community governance</li>
+                </ul>
+
+                <h3>Trust is Governed, Not Automated</h3>
+                <p>Trust decisions are calculated by AI, but can be <strong>reviewed, corrected, or enhanced</strong> by real people.</p>
+                
+                <div class="trust-code-block">
+DISCRETIONARY ACTIONS SUPPORTED:
+
+Manual Trust Bonuses:
+├── Community service verified
+├── Extraordinary recovery demonstrated
+├── Public benefit contributions
+└── Exceptional circumstances
+
+Trust Score Overrides:
+├── AI miscalculation detected
+├── Context requires human judgment
+├── Community consensus supports adjustment
+└── Appeal approved by review board
+
+Corrections:
+├── False negatives identified
+├── System errors corrected
+├── Outdated data updated
+└── Fair treatment ensured
+                </div>
+
+                <h3>The Integration Principle</h3>
+                <div class="trust-highlight">
+                    <p><strong>We don't remove people from the system.</strong><br>
+                    <strong>We don't remove intelligence from the system.</strong></p>
+                    <p style="font-size: 1.1rem; margin-top: 1rem;"><strong>We integrate them.</strong></p>
+                </div>
+
+                <p>This is not "AI-first" or "human-first." This is <strong>trust-fiat based</strong>:</p>
+                <ul>
+                    <li>AI calculates, humans govern</li>
+                    <li>Algorithms suggest, people decide</li>
+                    <li>Automation handles scale, humans handle exceptions</li>
+                    <li>Systems provide transparency, community provides accountability</li>
+                </ul>
+
+                <h3>Real-World Application</h3>
+                <table class="trust-table">
+                    <thead>
+                        <tr>
+                            <th>Scenario</th>
+                            <th>AI Role</th>
+                            <th>Human Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Normal Trust Calculation</td>
+                            <td>Calculate score based on factors</td>
+                            <td>None (automated)</td>
+                        </tr>
+                        <tr>
+                            <td>Disputed Review</td>
+                            <td>Flag for review, provide context</td>
+                            <td>Final decision on validity</td>
+                        </tr>
+                        <tr>
+                            <td>Exceptional Recovery</td>
+                            <td>Track recovery metrics</td>
+                            <td>Award bonus points if warranted</td>
+                        </tr>
+                        <tr>
+                            <td>Strike Appeal</td>
+                            <td>Present case history, calculate impact</td>
+                            <td>Review board decides outcome</td>
+                        </tr>
+                        <tr>
+                            <td>Community Benefit</td>
+                            <td>Recommend trust adjustment</td>
+                            <td>Approve and implement adjustment</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Why This Matters</h3>
+                <p>A fully automated system lacks judgment. A fully manual system lacks scale.</p>
+                <p>DiGiConnect combines the best of both:</p>
+                <ul>
+                    <li><strong>Consistency:</strong> AI ensures fair baseline calculations</li>
+                    <li><strong>Context:</strong> Humans apply judgment where algorithms can't</li>
+                    <li><strong>Accountability:</strong> Real people make final decisions</li>
+                    <li><strong>Transparency:</strong> Both AI logic and human decisions are documented</li>
+                </ul>
+
+                <div class="trust-highlight">
+                    <p style="font-size: 1.1rem;"><strong>People-run, AI-assisted.</strong></p>
+                    <p>That's the Human Initiative.</p>
+                </div>
+            </section>
+
+            <!-- Implementation -->
+            <section class="trust-section">
+                <h2>Part 6: Real-World Implementation</h2>
+                
+                <h3>Event Entry Verification</h3>
+                <p>Attendees scan DiGi Cards at entry. System checks account status, trust tier, and event-specific requirements. Display shows verification status or alerts for manual review.</p>
+
+                <h3>Employment Verification</h3>
+                <p>Employers can search candidates in the Trust Database to see trust scores, verification levels, platform tenure, and trust indicators—all while protecting privacy.</p>
+
+                <h3>School Visitor System</h3>
+                <p>Parents tap DiGi Cards at school kiosks. System verifies identity, relationship to students, and trust status. Staff see photos, relationships, and DiGi status with alerts for any issues.</p>
+            </section>
+
+            <!-- Final Note -->
+            <section class="trust-section">
+                <div class="trust-highlight" style="text-align: center; background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%); color: white; border: none;">
+                    <h2 style="color: white; margin-bottom: 1rem;">BE PROUD. BE BOLD. BE REAL.</h2>
+                    <p style="opacity: 0.9;">Trust isn't about being perfect. It's about being real.</p>
+                    <p style="opacity: 0.9;">Real people mess up. Real people grow. Real people earn trust back.</p>
+                </div>
+            </section>
+        </div>
+
+        <!-- CTA -->
+        <section style="padding: 4rem 2rem; background: var(--color-bg-light);">
+            <div class="container">
+                <div class="cta-box">
+                    <h2>Ready to Build Real Trust?</h2>
+                    <p>Get your free DiGi ID. Create your first card. Join a platform that values recovery over perfection.</p>
+                    <a href="./create.html" class="btn btn-primary btn-lg">Create Your Free Card</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--color-bg); padding: 3rem 0; border-top: 1px solid var(--color-border);">
+        <div class="container" style="text-align: center;">
+            <div class="footer-links" style="margin-bottom: 1.5rem;">
+                <a href="./">Home</a>
+                <a href="./hub.html">Hub</a>
+                <a href="./demo.html">Demo</a>
+                <a href="./wallet.html">Wallet</a>
+                <a href="./create.html">Create</a>
+                <a href="./verify.html">Verify</a>
+                <a href="./alpha.html">Alpha</a>
+                <a href="./blog.html">Blog</a>
+                <a href="./trust-score.html">Trust Score</a>
+                <a href="./sitemap.xml">Sitemap</a>
+            </div>
+            <p style="color: var(--color-text-secondary); font-size: 0.9rem;">
+                &copy; 2025 DABT217&trade; / DiGiConnect&trade;<br>
+                Part of The Restored Remembering Network<br>
+                A Davscty Project | All Rights Reserved
+            </p>
+            <p style="color: var(--color-text-muted); font-size: 0.8rem; margin-top: 0.5rem;">
+                Contact: <a href="https://twitter.com/digycty" target="_blank" rel="noopener" style="color: var(--color-primary);">@digycty</a> | 
+                <a href="mailto:DiGiConnect217@gmail.com" style="color: var(--color-primary);">DiGiConnect217@gmail.com</a>
+            </p>
+            <p style="color: var(--color-text-muted); font-size: 0.8rem; margin-top: 0.5rem;">
+                DiGiv6.0 | December 2024 | People-run, AI-assisted
+            </p>
+        </div>
+    </footer>
+
+    <!-- PWA Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(reg => console.log('✅ Service Worker registered'))
+                .catch(err => console.log('⚠️ SW registration failed', err));
+        }
+    </script>
+</body>
+</html>

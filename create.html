@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Card — DiGiConnect</title>
+    <meta name="description" content="Create your digital business card in 2 minutes. Choose from Profile, Business, or Client cards.">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-96.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/3d-cards.css">
+    <link rel="stylesheet" href="css/link-aggregator.css">
+    
+    <style>
+        .create-hero {
+            padding: 8rem 0 2rem;
+            text-align: center;
+        }
+        
+        .create-container {
+            display: grid;
+            grid-template-columns: 500px 1fr;
+            gap: 3rem;
+            padding: 2rem 0 4rem;
+            align-items: start;
+        }
+        
+        @media (max-width: 1200px) {
+            .create-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .create-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Card Type Selector */
+        .card-type-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card-type-option {
+            padding: 1.5rem 1rem;
+            background: var(--color-bg-light);
+            border: 2px solid var(--color-border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 200ms ease;
+            text-align: center;
+        }
+        
+        .card-type-option:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-2px);
+        }
+        
+        .card-type-option.selected {
+            border-color: var(--color-primary);
+            background: rgba(16, 185, 129, 0.1);
+        }
+        
+        .card-type-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-type-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .card-type-desc {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+        }
+        
+        /* Form Styles */
+        .create-form {
+            background: var(--color-bg-light);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--color-border);
+        }
+        
+        .form-section {
+            margin-bottom: 2rem;
+        }
+        
+        .form-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .form-section h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--color-text);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            color: var(--color-text);
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+        
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .color-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 200ms ease;
+        }
+        
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+        
+        .color-option.selected {
+            border-color: var(--color-text);
+            transform: scale(1.1);
+        }
+        
+        .color-option[data-color="green"] { background: linear-gradient(135deg, #10b981, #059669); }
+        .color-option[data-color="amber"] { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .color-option[data-color="blue"] { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .color-option[data-color="pink"] { background: linear-gradient(135deg, #ec4899, #db2777); }
+        .color-option[data-color="purple"] { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .color-option[data-color="slate"] { background: linear-gradient(135deg, #64748b, #475569); }
+        
+        /* Preview Section */
+        .preview-section {
+            position: sticky;
+            top: 6rem;
+        }
+        
+        .preview-label {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .preview-3d-container {
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .preview-hint {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--color-bg-light);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            text-align: center;
+        }
+        
+        /* Link Manager Integration */
+        .link-manager-section {
+            background: var(--color-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--color-border);
+        }
+        
+        .link-manager-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .link-manager-header h4 {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .add-link-btn {
+            padding: 0.5rem 1rem;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 200ms ease;
+        }
+        
+        .add-link-btn:hover {
+            background: var(--color-primary-dark);
+        }
+        
+        .links-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .link-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--color-bg-light);
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+        }
+        
+        .link-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .link-details {
+            flex: 1;
+        }
+        
+        .link-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .link-url {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .remove-link-btn {
+            padding: 0.25rem 0.75rem;
+            background: transparent;
+            color: var(--color-error);
+            border: 1px solid var(--color-error);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+        
+        .remove-link-btn:hover {
+            background: var(--color-error);
+            color: white;
+        }
+        
+        .empty-links {
+            padding: 2rem;
+            text-align: center;
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+        }
+        
+        /* Submit section */
+        .submit-section {
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--color-border);
+        }
+        
+        .submit-section .btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+        }
+        
+        .submit-note {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+        }
+        
+        /* Platform selector dropdown */
+        .platform-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            margin-top: 0.5rem;
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .platform-dropdown.active {
+            display: block;
+        }
+        
+        .platform-option {
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: background 200ms ease;
+        }
+        
+        .platform-option:hover {
+            background: var(--color-bg-light);
+        }
+        
+        .platform-option-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="./" class="logo">
+                <div class="logo-icon">DC</div>
+                <div class="logo-text"><span>DiGi</span><span>Connect</span></div>
+            </a>
+            <div class="nav-links">
+                <a href="./hub.html">Hub</a>
+                <a href="./alpha.html" class="btn" style="background: #F5A623; color: #0A1628;">🚀 Test Alpha</a>
+                <a href="./demo.html" class="btn btn-secondary">Demo</a>
+                <a href="./wallet.html">Wallet</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="create-hero">
+            <div class="container">
+                <h1>Create Your Card</h1>
+                <p class="section-subtitle">Choose your card type, add your info, and watch the live 3D preview!</p>
+            </div>
+        </section>
+        
+        <section>
+            <div class="container">
+                <div class="create-container">
+                    <!-- Form -->
+                    <div class="create-form">
+                        <!-- Card Type Selector -->
+                        <div class="form-section">
+                            <h3>Card Type</h3>
+                            <div class="card-type-selector">
+                                <div class="card-type-option selected" data-type="profile" onclick="selectCardType(this)">
+                                    <div class="card-type-icon">👤</div>
+                                    <div class="card-type-name">Profile</div>
+                                    <div class="card-type-desc">Personal ID</div>
+                                </div>
+                                <div class="card-type-option" data-type="business" onclick="selectCardType(this)">
+                                    <div class="card-type-icon">🏢</div>
+                                    <div class="card-type-name">Business</div>
+                                    <div class="card-type-desc">Company Card</div>
+                                </div>
+                                <div class="card-type-option" data-type="client" onclick="selectCardType(this)">
+                                    <div class="card-type-icon">⭐</div>
+                                    <div class="card-type-name">Client</div>
+                                    <div class="card-type-desc">Promoter</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Basic Info -->
+                        <div class="form-section">
+                            <h3 id="basicInfoLabel">Profile Info</h3>
+                            <div class="form-group">
+                                <label for="cardName" id="nameLabel">Full Name *</label>
+                                <input type="text" id="cardName" placeholder="Your Name" oninput="updatePreview()">
+                            </div>
+                            <div class="form-group">
+                                <label for="cardTitle" id="titleLabel">Title / Role</label>
+                                <input type="text" id="cardTitle" placeholder="Your Title" oninput="updatePreview()">
+                            </div>
+                            <div class="form-group">
+                                <label for="cardLocation">Location</label>
+                                <input type="text" id="cardLocation" placeholder="City, State" oninput="updatePreview()">
+                            </div>
+                            <div class="form-group">
+                                <label for="cardDescription">Description</label>
+                                <textarea id="cardDescription" placeholder="Tell people about yourself or your business..." oninput="updatePreview()"></textarea>
+                            </div>
+                        </div>
+                        
+                        <!-- Contact Info -->
+                        <div class="form-section">
+                            <h3>Contact Info</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="cardPhone">Phone</label>
+                                    <input type="tel" id="cardPhone" placeholder="(555) 123-4567" oninput="updatePreview()">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cardEmail">Email</label>
+                                    <input type="email" id="cardEmail" placeholder="you@email.com" oninput="updatePreview()">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="cardWebsite">Website</label>
+                                <input type="url" id="cardWebsite" placeholder="https://yoursite.com" oninput="updatePreview()">
+                            </div>
+                        </div>
+                        
+                        <!-- Social Links & Links Manager -->
+                        <div class="form-section">
+                            <div class="link-manager-section">
+                                <div class="link-manager-header">
+                                    <h4>Social Links & More</h4>
+                                    <button class="add-link-btn" onclick="showAddLinkDialog()">+ Add Link</button>
+                                </div>
+                                <div id="linksList" class="links-list">
+                                    <div class="empty-links">No links added yet. Click "+ Add Link" to get started!</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card Accent Color -->
+                        <div class="form-section">
+                            <h3>Accent Color</h3>
+                            <div class="color-options">
+                                <div class="color-option selected" data-color="green" onclick="selectColor(this)"></div>
+                                <div class="color-option" data-color="amber" onclick="selectColor(this)"></div>
+                                <div class="color-option" data-color="blue" onclick="selectColor(this)"></div>
+                                <div class="color-option" data-color="pink" onclick="selectColor(this)"></div>
+                                <div class="color-option" data-color="purple" onclick="selectColor(this)"></div>
+                                <div class="color-option" data-color="slate" onclick="selectColor(this)"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="submit-section">
+                            <button class="btn btn-primary" onclick="createCard()">Create My Card</button>
+                            <p class="submit-note">Free tier: 1 card, 30 views/month, QR code included</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 3D Preview -->
+                    <div class="preview-section">
+                        <p class="preview-label">Live 3D Preview</p>
+                        <div class="preview-3d-container">
+                            <div id="preview3DCard"></div>
+                        </div>
+                        <div class="preview-hint">
+                            💡 <strong>Tip:</strong> Drag to rotate the card. Click to flip and see the back with QR code.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="./index.html">Home</a>
+            <a href="./hub.html">Hub</a>
+            <a href="./demo.html">Demo</a>
+            <a href="./wallet.html">Wallet</a>
+            <a href="./verify.html">Verify</a>
+            <a href="./alpha.html">Alpha Preview</a>
+        </div>
+        <p>&copy; 2025 DABT217&trade; / DiGiConnect&trade;<br>
+        Part of The Restored Remembering Network<br>
+        A Davscty Project | All Rights Reserved</p>
+        <p style="margin-top: 0.5rem; font-size: 0.875rem;">Build: DiGiv6.0 | December 2024 | People-run, AI-assisted</p>
+    </footer>
+
+    <script src="js/3d-cards.js"></script>
+    <script src="js/link-manager.js"></script>
+    
+    <script>
+        // State
+        let cardType = 'profile';
+        let selectedColor = 'green';
+        let userLinks = [];
+        
+        const colorMap = {
+            green: '#10b981',
+            amber: '#f59e0b',
+            blue: '#3b82f6',
+            pink: '#ec4899',
+            purple: '#8b5cf6',
+            slate: '#64748b'
+        };
+        
+        // Card Type Selection
+        function selectCardType(el) {
+            document.querySelectorAll('.card-type-option').forEach(opt => opt.classList.remove('selected'));
+            el.classList.add('selected');
+            cardType = el.dataset.type;
+            
+            // Update form labels based on card type
+            updateFormLabels();
+            updatePreview();
+        }
+        
+        function updateFormLabels() {
+            const basicLabel = document.getElementById('basicInfoLabel');
+            const nameLabel = document.getElementById('nameLabel');
+            const titleLabel = document.getElementById('titleLabel');
+            
+            if (cardType === 'profile') {
+                basicLabel.textContent = 'Profile Info';
+                nameLabel.textContent = 'Full Name *';
+                titleLabel.textContent = 'Title / Role';
+            } else if (cardType === 'business') {
+                basicLabel.textContent = 'Business Info';
+                nameLabel.textContent = 'Business Name *';
+                titleLabel.textContent = 'Industry / Tagline';
+            } else if (cardType === 'client') {
+                basicLabel.textContent = 'Client Info';
+                nameLabel.textContent = 'Full Name *';
+                titleLabel.textContent = 'Company / Role';
+            }
+        }
+        
+        // Color Selection
+        function selectColor(el) {
+            document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedColor = el.dataset.color;
+            updatePreview();
+        }
+        
+        // Link Management
+        function showAddLinkDialog() {
+            const platform = prompt('Enter platform (e.g., instagram, linkedin, twitter, website):');
+            if (!platform) return;
+            
+            const url = prompt(`Enter your ${platform} URL:`);
+            if (!url) return;
+            
+            addLink(platform.toLowerCase(), url);
+        }
+        
+        function addLink(platform, url) {
+            const link = {
+                platform: platform,
+                url: url,
+                label: platform.charAt(0).toUpperCase() + platform.slice(1),
+                icon: getLinkIcon(platform)
+            };
+            
+            userLinks.push(link);
+            renderLinks();
+            updatePreview();
+        }
+        
+        function removeLink(index) {
+            userLinks.splice(index, 1);
+            renderLinks();
+            updatePreview();
+        }
+        
+        function renderLinks() {
+            const linksList = document.getElementById('linksList');
+            
+            if (userLinks.length === 0) {
+                linksList.innerHTML = '<div class="empty-links">No links added yet. Click "+ Add Link" to get started!</div>';
+                return;
+            }
+            
+            linksList.innerHTML = userLinks.map((link, index) => `
+                <div class="link-item">
+                    <div class="link-icon">${link.icon}</div>
+                    <div class="link-details">
+                        <div class="link-label">${link.label}</div>
+                        <div class="link-url">${link.url}</div>
+                    </div>
+                    <button class="remove-link-btn" onclick="removeLink(${index})">Remove</button>
+                </div>
+            `).join('');
+        }
+        
+        function getLinkIcon(platform) {
+            const icons = {
+                instagram: '📷',
+                facebook: '👥',
+                twitter: '🐦',
+                linkedin: '💼',
+                tiktok: '🎵',
+                youtube: '▶️',
+                github: '🐙',
+                website: '🌐',
+                email: '✉️',
+                phone: '📞',
+                whatsapp: '💬',
+                telegram: '✈️'
+            };
+            return icons[platform.toLowerCase()] || '🔗';
+        }
+        
+        // Preview Update
+        function updatePreview() {
+            const name = document.getElementById('cardName').value || 'Your Name';
+            const title = document.getElementById('cardTitle').value || 'Your Title';
+            const location = document.getElementById('cardLocation').value || 'Your Location';
+            const description = document.getElementById('cardDescription').value || 'Add a description...';
+            const phone = document.getElementById('cardPhone').value;
+            const email = document.getElementById('cardEmail').value;
+            const website = document.getElementById('cardWebsite').value;
+            
+            // Build card data
+            const cardData = {
+                cardType: cardType,
+                orientation: cardType === 'profile' ? 'vertical' : 'horizontal',
+                name: name,
+                title: title,
+                location: location,
+                avatar: name.charAt(0).toUpperCase(),
+                accentColor: colorMap[selectedColor],
+                trustScore: cardType === 'business' ? 4.8 : null,
+                verifiedBusiness: cardType === 'business',
+                stats: getStats(),
+                description: description,
+                socials: buildSocialsArray(),
+                actions: buildActionsArray(phone, email, website)
+            };
+            
+            // Render with DiGiCards library
+            const container = document.getElementById('preview3DCard');
+            if (window.DiGiCards) {
+                DiGiCards.renderCard(container, cardData);
+            } else {
+                container.innerHTML = '<p style="color: #94a3b8;">Loading preview...</p>';
+            }
+        }
+        
+        function getStats() {
+            if (cardType === 'business') {
+                return [
+                    { label: 'Reviews', value: '127' },
+                    { label: 'Projects', value: '450+' },
+                    { label: 'Rating', value: '4.8★' }
+                ];
+            } else if (cardType === 'client') {
+                return [
+                    { label: 'Projects', value: '23' },
+                    { label: 'Spent', value: '$45K' },
+                    { label: 'Trust', value: '5.0★' }
+                ];
+            } else {
+                return [
+                    { label: 'Projects', value: '89' },
+                    { label: 'Clients', value: '34' },
+                    { label: 'Rating', value: '4.9★' }
+                ];
+            }
+        }
+        
+        function buildSocialsArray() {
+            return userLinks.slice(0, 5).map(link => ({
+                icon: link.icon,
+                url: link.url,
+                label: link.label
+            }));
+        }
+        
+        function buildActionsArray(phone, email, website) {
+            const actions = [];
+            
+            if (phone) {
+                actions.push({
+                    icon: '📞',
+                    label: 'Call',
+                    url: `tel:${phone}`
+                });
+            }
+            
+            if (email) {
+                actions.push({
+                    icon: '✉️',
+                    label: 'Email',
+                    url: `mailto:${email}`
+                });
+            }
+            
+            if (website) {
+                actions.push({
+                    icon: '🌐',
+                    label: 'Website',
+                    url: website
+                });
+            }
+            
+            return actions;
+        }
+        
+        // Create Card
+        function createCard() {
+            const name = document.getElementById('cardName').value;
+            
+            if (!name) {
+                alert('Please enter a name for your card');
+                return;
+            }
+            
+            // In demo mode, show success with card summary
+            const summary = `
+🎉 Card Created Successfully!
+
+Card Type: ${cardType.charAt(0).toUpperCase() + cardType.slice(1)}
+Name: ${name}
+Links Added: ${userLinks.length}
+Color: ${selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1)}
+
+In the full version, this would:
+• Generate your unique card URL
+• Create a shareable QR code
+• Add to your dashboard
+• Enable 3D card viewing
+
+This is a static demo. Full functionality coming soon!
+            `.trim();
+            
+            alert(summary);
+        }
+        
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            updateFormLabels();
+            updatePreview();
+        });
+        
+        window.DIGI_BUILD = "DiGiv5.0";
+        console.log('✓ Create Card page loaded:', window.DIGI_BUILD);
+    </script>
+</body>
+</html>

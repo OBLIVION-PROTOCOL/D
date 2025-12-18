@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DiGiConnect — The Platform That Doesn't Make You Dance</title>
+    <meta name="description" content="Digital business cards with real trust scores. No algorithms. No apps required. Just real businesses, real people, real trust.">
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-96.png">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="DiGiConnect — The Platform That Doesn't Make You Dance">
+    <meta property="og:description" content="Digital business cards with real trust scores. No algorithms. No apps required.">
+    <meta property="og:image" content="icons/icon-512.png">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/3d-cards.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="./" class="logo" aria-label="DiGiConnect home">
+                <div class="logo-icon">DC</div>
+                <div class="logo-text"><span>DiGi</span><span>Connect</span></div>
+            </a>
+
+            <div class="nav-links" role="navigation" aria-label="Primary">
+                <a href="./hub.html">Hub</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#pricing">Pricing</a>
+                <a href="./blog.html">Updates</a>
+                <a href="./alpha.html" class="btn" style="background: #F5A623; color: #0A1628;">🚀 Test Alpha</a>
+                <a href="./demo.html" class="btn btn-secondary">View Demo</a>
+                <a href="./create.html" class="btn btn-primary">Create Card</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero -->
+        <section class="hero" id="top">
+            <div class="container">
+                <div class="hero-badge">Your DiGi ID + Business/Client Cards</div>
+                <h1>The Platform That Doesn't<br><span class="gradient">Make You Dance</span></h1>
+                <p class="hero-subtitle">
+                    No algorithm games. No required app downloads. No paying for visibility.
+                    <br>Just real businesses, real reviews, real trust.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="./create.html" class="btn btn-primary btn-lg">Create Free Card</a>
+                    <a href="./demo.html" class="btn btn-secondary btn-lg">View 3D Demo</a>
+                    <a href="#how-it-works" class="btn btn-ghost btn-lg">See How It Works ↓</a>
+                </div>
+
+                <div class="hero-proof" aria-label="Key benefits">
+                    <span>✨ No app required</span>
+                    <span>🎴 Free DiGi ID for everyone</span>
+                    <span>📴 Works offline</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Demo Teaser -->
+        <section class="teaser" id="demo">
+            <div class="container">
+                <h2 class="section-title">Try the Demo</h2>
+                <p class="section-subtitle">Interactive 3D cards you can rotate, flip, and explore. Tap any corner to flip.</p>
+                
+                <div class="demo-preview">
+                    <div id="demo-card-preview"></div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="./demo.html" class="btn btn-primary btn-lg">See All Demo Cards →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem -->
+        <section class="problem">
+            <div class="container">
+                <h2 class="section-title">Why We Built This</h2>
+                <p class="section-subtitle">
+                    Most platforms are attention casinos. DiGiConnect is a trust ledger with a human face.
+                </p>
+                <div class="problem-grid">
+                    <div class="problem-card">
+                        <div class="problem-icon">🎭</div>
+                        <h3>No Algorithm Games</h3>
+                        <p>Your visibility is based on your trust score, not how often you post or how much you pay.</p>
+                    </div>
+                    <div class="problem-card">
+                        <div class="problem-icon">📱</div>
+                        <h3>No App Required</h3>
+                        <p>Clients scan your QR code and see your card instantly. Zero friction. Zero downloads.</p>
+                    </div>
+                    <div class="problem-card">
+                        <div class="problem-icon">💰</div>
+                        <h3>Trust Can't Be Bought</h3>
+                        <p>Paid features give you convenience, never advantage. The Unbuyable Promise.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section id="how-it-works">
+            <div class="container">
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-subtitle">Simple steps. Clear logic. Nothing hidden behind a feed.</p>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Get Your DiGi ID</h3>
+                        <p>Everyone gets a free DiGi ID — your digital passport. No socials, just your profile.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Create Your Cards</h3>
+                        <p>Business cards with social links. Client cards to showcase your credibility.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Share Everywhere</h3>
+                        <p>QR code, link, NFC tap. Flip cards show mission statements or QR codes.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h3>Build Trust</h3>
+                        <p>Verified reviews from real clients. Respond well, earn trust scores that matter.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trust -->
+        <section class="trust">
+            <div class="container">
+                <h2 class="section-title">Build Trust</h2>
+                <p class="section-subtitle">
+                    Trust scores based on verified reviews, response times, and partnership endorsements.
+                    No buying your way to the top.
+                </p>
+                <p style="text-align: center; margin-bottom: 2rem;">
+                    <a href="./trust-score.html" class="btn btn-secondary">📊 See Our Trust Score System</a>
+                </p>
+                <div class="trust-grid">
+                    <div class="trust-item">
+                        <div class="trust-metric">4.8★</div>
+                        <p>Average verified trust score</p>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-metric">127</div>
+                        <p>Average verified reviews</p>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-metric">94%</div>
+                        <p>Response rate</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Three-Tier Card System -->
+        <section>
+            <div class="container">
+                <h2 class="section-title">Three Cards, One Platform</h2>
+                <p class="section-subtitle">DiGi ID for everyone. Business & Client cards for building connections.</p>
+                <div class="sides-grid">
+                    <div class="side-card">
+                        <div class="side-icon">🎴</div>
+                        <h3>DiGi ID (Free for Everyone)</h3>
+                        <p class="side-tagline">Your digital passport</p>
+                        <ul class="side-features">
+                            <li>✓ Profile card / badge</li>
+                            <li>✓ Links to your full profile page</li>
+                            <li>✓ Shows your reviews given</li>
+                            <li>✓ Personal information you choose</li>
+                            <li>✓ No social links (clean identity)</li>
+                            <li>✓ Always free, no limits</li>
+                        </ul>
+                        <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--color-text-muted);">
+                            <strong>Note:</strong> Your DiGi ID is where clients or businesses find your personal information. 
+                            It's like your passport — click it to see your full profile with all reviews you've given.
+                        </p>
+                    </div>
+                    <div class="side-card">
+                        <div class="side-icon">🏢</div>
+                        <h3>Business Cards</h3>
+                        <p class="side-tagline">For businesses building trust</p>
+                        <ul class="side-features">
+                            <li>✓ Digital business card with 360° rotation</li>
+                            <li>✓ Social links (Instagram, LinkedIn, etc.)</li>
+                            <li>✓ Verified client reviews & trust score</li>
+                            <li>✓ QR code or mission statement on back</li>
+                            <li>✓ Partner network endorsements</li>
+                            <li>✓ Analytics & insights</li>
+                        </ul>
+                        <a href="./create.html?type=business" class="btn btn-primary">Create Business Card</a>
+                    </div>
+                    <div class="side-card">
+                        <div class="side-icon">⭐</div>
+                        <h3>Client Cards</h3>
+                        <p class="side-tagline">For clients building credibility</p>
+                        <ul class="side-features">
+                            <li>✓ Client promoter card with profile</li>
+                            <li>✓ Social links to share your presence</li>
+                            <li>✓ Reviews you've given publicly visible</li>
+                            <li>✓ Custom message or QR on card back</li>
+                            <li>✓ Credibility score & tier badges</li>
+                            <li>✓ Promotion opportunities (earn money)</li>
+                        </ul>
+                        <a href="./create.html?type=client" class="btn btn-secondary">Create Client Card</a>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 2rem; color: var(--color-text-muted);">
+                    <strong>How it works:</strong> Your DiGi ID is always visible. Business/Client cards link socials and showcase your work. 
+                    Flip any card to reveal QR codes or mission statements (your choice).
+                </p>
+            </div>
+        </section>
+
+        <!-- Pricing -->
+        <section class="pricing" id="pricing">
+            <div class="container">
+                <h2 class="section-title">Simple Pricing</h2>
+                <p class="section-subtitle">Everyone gets a free DiGi ID. Upgrade for Business or Client cards.</p>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Free</h3>
+                        <div class="price">$0</div>
+                        <p class="price-desc">Forever free</p>
+                        <ul class="pricing-features">
+                            <li><strong>Free DiGi ID</strong> (always included)</li>
+                            <li>1 Business or Client card</li>
+                            <li>30 views/month per card</li>
+                            <li>QR code included</li>
+                            <li>Basic templates</li>
+                        </ul>
+                        <a href="./create.html" class="btn btn-secondary" style="width:100%">Get Started</a>
+                    </div>
+
+                    <div class="pricing-card">
+                        <h3>Plus</h3>
+                        <div class="price">$3<span>/month</span></div>
+                        <p class="price-desc">For growing presence</p>
+                        <ul class="pricing-features">
+                            <li><strong>Free DiGi ID</strong> (always included)</li>
+                            <li><strong>DiGi ID + 2 customizable cards</strong></li>
+                            <li>Mix Business/Client cards as needed</li>
+                            <li>500 views/month per card</li>
+                            <li>All templates</li>
+                            <li>5 custom links per card</li>
+                            <li>Basic analytics</li>
+                        </ul>
+                        <a href="./create.html" class="btn btn-secondary" style="width:100%">Start Plus</a>
+                    </div>
+
+                    <div class="pricing-card featured">
+                        <div class="pricing-badge">Most Popular</div>
+                        <h3>Pro</h3>
+                        <div class="price">$5<span>/month</span></div>
+                        <p class="price-desc">Full features</p>
+                        <ul class="pricing-features">
+                            <li><strong>Free DiGi ID</strong> (always included)</li>
+                            <li><strong>DiGi ID + 3 customizable cards</strong></li>
+                            <li>Unlimited Business/Client cards</li>
+                            <li>Unlimited views</li>
+                            <li>All templates + custom design</li>
+                            <li>Unlimited links per card</li>
+                            <li>Full analytics & insights</li>
+                            <li><span style="color: #10b981;">🔜 Live images</span> <span style="font-size: 0.8rem; color: #64748b;">(Coming Soon)</span></li>
+                            <li><span style="color: #10b981;">🔜 Uploadable backgrounds</span> <span style="font-size: 0.8rem; color: #64748b;">(Coming Soon)</span></li>
+                            <li>Priority support</li>
+                        </ul>
+                        <a href="./create.html" class="btn btn-primary" style="width:100%">Start Pro</a>
+                    </div>
+
+                    <div class="pricing-card lifetime">
+                        <div class="pricing-badge">Limited</div>
+                        <h3>Lifetime</h3>
+                        <div class="price">$99<span> one-time</span></div>
+                        <p class="price-desc">Early supporter special</p>
+                        <ul class="pricing-features">
+                            <li><strong>Free DiGi ID</strong> (always included)</li>
+                            <li>Pro features forever</li>
+                            <li>All future Pro upgrades</li>
+                            <li>Early access to new features</li>
+                            <li>Founding member badge</li>
+                            <li>Priority support for life</li>
+                        </ul>
+                        <a href="./create.html" class="btn btn-primary" style="width:100%">Get Lifetime</a>
+                        <p class="lifetime-note">
+                            Includes lifetime access to Plus and Pro features, including all future upgrades added to Pro.
+                            Team, Company, and Enterprise plans are separate and not included. Limited quantity. Early supporters only.
+                        </p>
+                    </div>
+                </div>
+
+                <p class="pricing-future">Team, Company, and Enterprise plans coming later.</p>
+                
+                <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: var(--color-bg-light); border-radius: 12px; border: 1px solid var(--color-border);">
+                    <h3 style="margin-bottom: 1rem;">About DiGi ID (Free for Everyone)</h3>
+                    <p style="color: var(--color-text-muted); max-width: 700px; margin: 0 auto;">
+                        Your DiGi ID is your digital passport. It's a profile card that shows your identity and links to your full profile page 
+                        where people can see all the reviews you've given and any personal information you choose to share. 
+                        <strong>It never expires. It's always free.</strong> Business and Client cards are separate — those are where you add social links 
+                        and showcase your work. Your DiGi ID is clean, simple identity.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Human Initiative -->
+        <section class="human">
+            <div class="container">
+                <h2 class="section-title">The Human Initiative</h2>
+                <p class="section-subtitle">This platform runs on tools that respect you.</p>
+
+                <div class="human-story">
+                    <p>
+                        DiGiConnect was built deliberately with tools and systems designed to work <em>for</em> people, not <em>on</em> them.
+                    </p>
+                    <p>
+                        <strong>Static systems over opaque engines.</strong> You can see the source. You understand what's happening. No hidden feeds deciding what you see.
+                    </p>
+                    <p>
+                        <strong>Clear value exchange over extraction.</strong> You know what you're paying for. You know what you're getting. No dark patterns, no algorithmic pressure to perform.
+                    </p>
+                    <p>
+                        <strong>Trust that can't be gamed.</strong> Reviews are verified. Scores reflect reality. You can't buy visibility. You earn trust by doing good work and treating people well.
+                    </p>
+                </div>
+
+                <div class="stack-grid" aria-label="Tools">
+                    <div class="stack-item"><strong>NeoCities</strong><span>Human-first hosting</span></div>
+                    <div class="stack-item"><strong>Fastmail</strong><span>Email without exploitation</span></div>
+                    <div class="stack-item"><strong>Stripe</strong><span>Clear payment rails</span></div>
+                    <div class="stack-item"><strong>Static HTML</strong><span>By choice, not laziness</span></div>
+                    <div class="stack-item"><strong>PWA</strong><span>For practicality, not flash</span></div>
+                    <div class="stack-item"><strong>Open Source</strong><span>View the source, understand it</span></div>
+                </div>
+
+                <div class="human-manifesto">
+                    <p>
+                        <strong>We're not hiding how it works.</strong> We're showing you it doesn't need to be complicated.
+                    </p>
+                    <p>
+                        No mandatory app downloads. No proprietary lock-in. No algorithm deciding if your clients see your card.
+                    </p>
+                    <p>
+                        Just clean systems. Clear rules. Real trust.
+                    </p>
+                    <p style="margin-top: 2rem; font-style: italic;">
+                        Look how little you need to trust us to understand what's happening.
+                    </p>
+                </div>
+
+                <p style="text-align: center; margin-top: 2rem; font-size: 0.875rem; color: var(--color-text-muted);">
+                    <em>Internal documentation exists for verified builders.</em>
+                </p>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section style="padding: 4rem 0;">
+            <div class="container">
+                <div class="cta-box">
+                    <h2>Ready to Build Real Trust?</h2>
+                    <p>Get your free DiGi ID. Create your first card. Join a platform that doesn't make you dance.</p>
+                    <a href="./create.html" class="btn btn-primary btn-lg">Create Your Free Card</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="logo-icon">DC</div>
+                        <span>DiGiConnect</span>
+                    </div>
+                    <p>The platform that doesn't make you dance.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Platform</h4>
+                        <a href="./create.html">Create Card</a>
+                        <a href="./demo.html">View Demo</a>
+                        <a href="./wallet.html">Wallet</a>
+                        <a href="./hub.html">Hub</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <a href="#how-it-works">How It Works</a>
+                        <a href="#pricing">Pricing</a>
+                        <a href="./blog.html">Updates</a>
+                        <a href="./trust-score.html">Trust Score</a>
+                        <a href="./verify.html">Verification</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Preview</h4>
+                        <a href="./alpha.html">Alpha Preview</a>
+                        <a href="./links-demo.html">Link Demo</a>
+                        <a href="./demo-v5.html">Card Types</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Connect</h4>
+                        <a href="https://twitter.com/digycty" target="_blank" rel="noopener">@digycty</a>
+                        <a href="mailto:DiGiConnect217@gmail.com">Email Us</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 DABT217&trade; / DiGiConnect&trade;<br>
+                Part of The Restored Remembering Network<br>
+                A Davscty Project | All Rights Reserved</p>
+                <p style="font-size: 0.875rem; margin-top: 0.5rem;">Build: DiGiv6.0 | December 18, 2024 | People-run, AI-assisted</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/3d-cards.js"></script>
+    <script>
+        // Initialize demo card on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const demoContainer = document.getElementById('demo-card-preview');
+            if (demoContainer && window.DiGiCards) {
+                const sampleCard = {
+                    cardType: 'business',
+                    orientation: 'horizontal',
+                    name: 'Sweet Sunrise Bakery',
+                    title: 'Artisan Breads & Pastries',
+                    location: 'Portland, OR',
+                    avatar: '🧁',
+                    accentColor: '#ec4899',
+                    trustScore: 4.9,
+                    verifiedBusiness: true,
+                    stats: [
+                        { label: 'Reviews', value: '89' },
+                        { label: 'Orders', value: '450+' },
+                        { label: 'Rating', value: '4.9★' }
+                    ],
+                    description: 'Handcrafted breads and pastries using local ingredients',
+                    socials: [
+                        { icon: '📷', url: '#', label: 'Instagram' },
+                        { icon: '👥', url: '#', label: 'Facebook' }
+                    ],
+                    actions: [
+                        { icon: '📞', label: 'Call', onclick: 'alert("Demo mode")' },
+                        { icon: '✉️', label: 'Email', onclick: 'alert("Demo mode")' }
+                    ]
+                };
+                DiGiCards.renderCard(demoContainer, sampleCard);
+            }
+        });
+
+        // PWA registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(() => console.log('✓ Service Worker registered'))
+                .catch((err) => console.error('Service Worker error:', err));
+        }
+
+        window.DIGI_BUILD = "DiGiv6.0";
+        console.log('✓ DiGiConnect v6.0 loaded:', window.DIGI_BUILD);
+    </script>
+</body>
+</html>
