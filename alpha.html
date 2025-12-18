@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DiGiConnect Alpha Preview - Two-sided trust platform for businesses and clients">
+  
+  <title>DiGiConnect Alpha Preview</title>
+  
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <meta name="theme-color" content="#0A1628" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --navy: #0A1628;
+      --navy-light: #1a2d4a;
+      --teal: #00D4AA;
+      --teal-dark: #00B894;
+      --gold: #F5A623;
+      --purple: #8B5CF6;
+      --pink: #ec4899;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-400: #94a3b8;
+      --gray-600: #475569;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: var(--gray-50);
+      color: var(--navy);
+      line-height: 1.5;
+      padding-bottom: 80px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* Header */
+    .header {
+      background: white;
+      border-bottom: 1px solid var(--gray-200);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0.75rem 1rem;
+    }
+
+    .header-content {
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      background: var(--teal);
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-center;
+      font-weight: bold;
+      color: var(--navy);
+    }
+
+    .logo-text {
+      font-size: 1.125rem;
+      font-weight: bold;
+    }
+
+    .alpha-badge {
+      background: var(--gold);
+      color: var(--navy);
+      padding: 0.125rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    /* Bottom Nav */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid var(--gray-200);
+      z-index: 100;
+    }
+
+    .nav-content {
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem;
+      position: relative;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.75rem;
+      color: var(--gray-400);
+      transition: all 0.2s;
+    }
+
+    .nav-item.active {
+      color: var(--teal);
+    }
+
+    .nav-item.center {
+      margin-top: -2rem;
+    }
+
+    .nav-icon {
+      font-size: 1.25rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .nav-icon.center {
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 1rem;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      border: 4px solid white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .nav-item.active .nav-icon.center {
+      background: var(--teal);
+      transform: scale(1.1);
+    }
+
+    /* Content Views */
+    .view {
+      display: none;
+      padding: 1rem;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    /* Cards */
+    .card {
+      background: white;
+      border-radius: 1rem;
+      border: 1px solid var(--gray-200);
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 1rem;
+      border-bottom: 1px solid var(--gray-100);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .avatar {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
+    .tier-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.125rem 0.5rem;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .tier-bronze { background: rgba(245,166,35,0.15); color: var(--gold); }
+    .tier-silver { background: rgba(148,163,184,0.2); color: #a1a1aa; }
+    .tier-gold { background: rgba(245,166,35,0.2); color: var(--gold); }
+    .tier-diamond { background: rgba(139,92,246,0.2); color: var(--purple); }
+
+    .stars {
+      display: flex;
+      gap: 0.125rem;
+    }
+
+    .star {
+      color: #fbbf24;
+      font-size: 1rem;
+    }
+
+    .star.empty {
+      color: var(--gray-200);
+    }
+
+    .card-body {
+      padding: 1rem;
+    }
+
+    .card-footer {
+      padding: 0.75rem 1rem;
+      background: var(--gray-50);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--teal);
+      color: var(--navy);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+    }
+
+    /* Business Card Preview */
+    .business-card-preview {
+      width: 100%;
+      height: 18rem;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+
+    .business-card-preview.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      inset: 0;
+      padding: 1.5rem;
+      backface-visibility: hidden;
+      border-radius: 1rem;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+    }
+
+    /* Grid */
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Welcome Screen */
+    .welcome-screen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(180deg, var(--gray-100) 0%, white 100%);
+    }
+
+    .welcome-nav {
+      background: white;
+      border-bottom: 1px solid var(--gray-200);
+      padding: 1rem;
+    }
+
+    .welcome-nav-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .welcome-hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .hero-badge {
+      background: rgba(0,212,170,0.15);
+      color: var(--teal-dark);
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.125rem;
+      color: var(--gray-600);
+      margin-bottom: 2rem;
+      max-width: 600px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-large {
+      padding: 1rem 2rem;
+      font-size: 1.125rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .btn-business {
+      background: var(--teal);
+      color: var(--navy);
+    }
+
+    .btn-client {
+      background: var(--purple);
+      color: white;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+
+    .empty-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Utility */
+    .text-sm { font-size: 0.875rem; }
+    .text-xs { font-size: 0.75rem; }
+    .font-bold { font-weight: 700; }
+    .font-semibold { font-weight: 600; }
+    .text-muted { color: var(--gray-600); }
+    .mb-1 { margin-bottom: 0.25rem; }
+    .mb-2 { margin-bottom: 0.5rem; }
+    .mb-4 { margin-bottom: 1rem; }
+    .mt-2 { margin-top: 0.5rem; }
+    .flex { display: flex; }
+    .items-center { align-items: center; }
+    .justify-between { justify-content: space-between; }
+    .gap-2 { gap: 0.5rem; }
+
+    @media (max-width: 640px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+      
+      .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+      }
+      
+      .btn-large {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Welcome Screen -->
+  <div id="welcomeScreen" class="welcome-screen">
+    <nav class="welcome-nav">
+      <div class="welcome-nav-content">
+        <div class="logo-group">
+          <div class="logo-icon">DC</div>
+          <span class="logo-text">DiGiConnect</span>
+        </div>
+        <button class="btn btn-primary" onclick="enterAlpha()">Enter Alpha</button>
+      </div>
+    </nav>
+
+    <div class="welcome-hero">
+      <div class="hero-badge">
+        🚀 Two-Sided Trust Platform — No App Required
+      </div>
+      
+      <h1 class="hero-title">
+        Where <span style="color: var(--teal)">Businesses</span> and <span style="color: var(--purple)">Clients</span> Build Trust Together
+      </h1>
+      
+      <p class="hero-subtitle">
+        The first platform where both sides have verified reputations. Digital business cards meet client credibility. Promotion economy meets real reviews.
+      </p>
+      
+      <div class="hero-buttons">
+        <button class="btn btn-large btn-business" onclick="enterAlpha('business')">
+          I'm a Business →
+        </button>
+        <button class="btn btn-large btn-client" onclick="enterAlpha('client')">
+          I'm a Client →
+        </button>
+      </div>
+      
+      <p class="text-sm text-muted" style="margin-top: 1rem;">
+        Works in your browser. No app download needed to view cards or leave reviews.
+      </p>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div id="mainApp" style="display: none;">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo-group">
+          <div class="logo-icon">DC</div>
+          <span class="logo-text">DiGiConnect</span>
+          <span class="alpha-badge">ALPHA</span>
+        </div>
+        <div>
+          <button class="btn btn-primary text-sm" onclick="showWelcome()">Exit</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Feed View -->
+    <div id="feedView" class="view container">
+      <h2 class="font-bold mb-4" style="font-size: 1.25rem;">Recent Reviews</h2>
+      
+      <!-- Review Card 1 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="avatar">SM</div>
+          <div style="flex: 1;">
+            <div class="flex items-center gap-2">
+              <span class="font-semibold text-sm">Sarah Mitchell</span>
+              <span class="tier-badge tier-silver">🥈 Silver</span>
+            </div>
+            <p class="text-xs text-muted">2 days ago</p>
+          </div>
+          <span class="text-xs" style="background: #dcfce7; color: #16a34a; padding: 0.25rem 0.5rem; border-radius: 0.5rem; font-weight: 600;">
+            ✓ Verified
+          </span>
+        </div>
+        <div class="card-body">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="stars">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+            </div>
+            <span class="text-sm text-muted">for</span>
+            <span class="font-semibold text-sm">Martinez Electric Co.</span>
+            <span class="tier-badge tier-gold">🥇 Gold</span>
+          </div>
+          <p class="text-sm">Carlos rewired our entire basement. Professional, clean work, and finished ahead of schedule. Highly recommend!</p>
+        </div>
+        <div class="card-footer">
+          <button class="text-sm text-muted">👍 24 helpful</button>
+          <button class="text-sm font-semibold" style="color: var(--teal);">View Business →</button>
+        </div>
+      </div>
+
+      <!-- Review Card 2 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="avatar">DR</div>
+          <div style="flex: 1;">
+            <div class="flex items-center gap-2">
+              <span class="font-semibold text-sm">David Rodriguez</span>
+              <span class="tier-badge tier-gold">🥇 Gold</span>
+            </div>
+            <p class="text-xs text-muted">1 week ago</p>
+          </div>
+          <span class="text-xs" style="background: #dcfce7; color: #16a34a; padding: 0.25rem 0.5rem; border-radius: 0.5rem; font-weight: 600;">
+            ✓ Verified
+          </span>
+        </div>
+        <div class="card-body">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="stars">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+            </div>
+            <span class="text-sm text-muted">for</span>
+            <span class="font-semibold text-sm">Bloom & Grow Landscaping</span>
+            <span class="tier-badge tier-diamond">💎 Diamond</span>
+          </div>
+          <p class="text-sm">Emily transformed our backyard into an oasis. She understood exactly what we wanted and delivered beyond expectations.</p>
+        </div>
+        <div class="card-footer">
+          <button class="text-sm text-muted">👍 31 helpful</button>
+          <button class="text-sm font-semibold" style="color: var(--teal);">View Business →</button>
+        </div>
+      </div>
+
+      <!-- More Coming Soon -->
+      <div class="card" style="text-align: center; padding: 2rem;">
+        <p class="text-muted">More reviews loading...</p>
+        <p class="text-xs text-muted mt-2">Alpha preview - Limited data</p>
+      </div>
+    </div>
+
+    <!-- Discover View -->
+    <div id="discoverView" class="view container">
+      <h2 class="font-bold mb-4" style="font-size: 1.25rem;">Discover Businesses</h2>
+      
+      <div class="grid grid-2 mb-4">
+        <button class="card" style="padding: 1rem; text-align: center;">⚡ Electrical</button>
+        <button class="card" style="padding: 1rem; text-align: center;">🌿 Landscaping</button>
+        <button class="card" style="padding: 1rem; text-align: center;">🔧 Plumbing</button>
+        <button class="card" style="padding: 1rem; text-align: center;">🚗 Auto Repair</button>
+      </div>
+
+      <h3 class="font-semibold mb-2">Top Rated in Colorado</h3>
+      
+      <div class="card">
+        <div style="padding: 1rem; display: flex; align-items: center; gap: 1rem;">
+          <div class="avatar" style="width: 3rem; height: 3rem; font-size: 1rem;">BG</div>
+          <div style="flex: 1;">
+            <div class="flex items-center gap-2">
+              <span class="font-semibold">Bloom & Grow Landscaping</span>
+              <span class="tier-badge tier-diamond">💎</span>
+            </div>
+            <p class="text-xs text-muted">Emily Chen • Landscaping</p>
+          </div>
+          <div style="text-align: right;">
+            <div class="font-bold" style="color: var(--teal); font-size: 1.25rem;">847</div>
+            <div class="text-xs text-muted">Trust</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="padding: 1rem; display: flex; align-items: center; gap: 1rem;">
+          <div class="avatar" style="width: 3rem; height: 3rem; font-size: 1rem;">RM</div>
+          <div style="flex: 1;">
+            <div class="flex items-center gap-2">
+              <span class="font-semibold">Rocky Mountain Plumbing</span>
+              <span class="tier-badge tier-gold">🥇</span>
+            </div>
+            <p class="text-xs text-muted">Roberto Sanchez • Plumbing</p>
+          </div>
+          <div style="text-align: right;">
+            <div class="font-bold" style="color: var(--teal); font-size: 1.25rem;">756</div>
+            <div class="text-xs text-muted">Trust</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="padding: 1rem; display: flex; align-items: center; gap: 1rem;">
+          <div class="avatar" style="width: 3rem; height: 3rem; font-size: 1rem;">ME</div>
+          <div style="flex: 1;">
+            <div class="flex items-center gap-2">
+              <span class="font-semibold">Martinez Electric Co.</span>
+              <span class="tier-badge tier-gold">🥇</span>
+            </div>
+            <p class="text-xs text-muted">Carlos Martinez • Electrical</p>
+          </div>
+          <div style="text-align: right;">
+            <div class="font-bold" style="color: var(--teal); font-size: 1.25rem;">682</div>
+            <div class="text-xs text-muted">Trust</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shorts View -->
+    <div id="shortsView" class="view container">
+      <h2 class="font-bold mb-2" style="font-size: 1.25rem;">Business Shorts</h2>
+      <p class="text-sm text-muted mb-4">60-second videos from verified businesses</p>
+      
+      <div class="empty-state">
+        <div class="empty-icon">🎬</div>
+        <p class="font-semibold mb-1">No Shorts Yet</p>
+        <p class="text-sm text-muted">This feature is coming soon in the alpha</p>
+      </div>
+    </div>
+
+    <!-- Cards View -->
+    <div id="cardsView" class="view container">
+      <h2 class="font-bold mb-4" style="font-size: 1.25rem;">Browse Business Cards</h2>
+      
+      <div id="cardDisplay" class="business-card-preview" style="background: linear-gradient(135deg, #0A1628 0%, #1a2d4a 100%);">
+        <div class="card-face">
+          <div class="flex items-center gap-3 mb-4">
+            <div style="width: 3.5rem; height: 3.5rem; background: var(--teal); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.25rem;">
+              CM
+            </div>
+            <div style="flex: 1;">
+              <h3 style="color: white; font-weight: bold; font-size: 1.125rem;">Carlos Martinez</h3>
+              <p style="color: #94a3b8; font-size: 0.875rem;">Master Electrician</p>
+            </div>
+          </div>
+          
+          <div style="margin-bottom: 1rem;">
+            <div style="background: rgba(255,255,255,0.1); padding: 0.75rem; border-radius: 0.5rem; margin-bottom: 0.5rem; color: white; font-size: 0.875rem;">
+              📞 (720) 555-0147
+            </div>
+            <div style="background: rgba(255,255,255,0.1); padding: 0.75rem; border-radius: 0.5rem; margin-bottom: 0.5rem; color: white; font-size: 0.875rem;">
+              🌐 martinezelectric.co
+            </div>
+            <div style="background: rgba(255,255,255,0.1); padding: 0.75rem; border-radius: 0.5rem; color: white; font-size: 0.875rem;">
+              📍 Denver, CO
+            </div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: end;">
+            <div>
+              <p style="color: #64748b; font-size: 0.75rem; margin-bottom: 0.25rem;">Martinez Electric Co.</p>
+              <span class="tier-badge tier-gold">🥇 Gold</span>
+            </div>
+            <div style="width: 3.5rem; height: 3.5rem; background: white; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">
+              <svg width="40" height="40" viewBox="0 0 40 40"><rect width="40" height="40" fill="white"/><g fill="#0A1628"><rect x="4" y="4" width="4" height="4"/><rect x="8" y="4" width="4" height="4"/><rect x="16" y="4" width="4" height="4"/><rect x="28" y="4" width="4" height="4"/><rect x="32" y="4" width="4" height="4"/><rect x="4" y="8" width="4" height="4"/><rect x="16" y="8" width="4" height="4"/><rect x="28" y="8" width="4" height="4"/><rect x="32" y="8" width="4" height="4"/></g></svg>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card-face card-back" style="background: linear-gradient(135deg, #0A1628 0%, #1a2d4a 100%);">
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <p style="color: var(--teal); text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.75rem; margin-bottom: 0.5rem;">Our Mission</p>
+            <p style="color: white; font-style: italic;">"Quality work, honest pricing, always on time."</p>
+          </div>
+          
+          <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 0.75rem; margin-bottom: 1rem;">
+            <div class="stars mb-2">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+            </div>
+            <p style="color: white; font-size: 0.875rem; margin-bottom: 0.5rem;">"Carlos rewired our entire basement..."</p>
+            <p style="color: #94a3b8; font-size: 0.75rem;">— Sarah Mitchell</p>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.75rem;">
+            <div style="color: #94a3b8;">Trust: <span style="color: white; font-weight: bold;">682</span></div>
+            <div style="color: #94a3b8;">Reviews: <span style="color: white; font-weight: bold;">3</span></div>
+            <div style="color: #94a3b8;">Partners: <span style="color: white; font-weight: bold;">12</span></div>
+          </div>
+        </div>
+      </div>
+      
+      <p style="text-align: center; font-size: 0.75rem; color: var(--gray-400); margin-top: 0.5rem;">
+        Tap card to flip
+      </p>
+      
+      <button class="btn btn-primary" style="width: 100%; margin-top: 1rem; padding: 0.75rem;">
+        View Full Profile
+      </button>
+    </div>
+
+    <!-- Wallet View -->
+    <div id="walletView" class="view container">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="font-bold" style="font-size: 1.25rem;">My Wallet</h2>
+          <p class="text-sm text-muted">0 saved cards</p>
+        </div>
+        <button class="text-sm font-semibold" style="color: var(--teal);">+ Collection</button>
+      </div>
+      
+      <div class="empty-state">
+        <div class="empty-icon">💼</div>
+        <p class="font-semibold mb-1">Your wallet is empty</p>
+        <p class="text-sm text-muted mb-4">Save business cards to access them anytime</p>
+        <button class="btn btn-primary" onclick="switchView('cards')">Browse Cards</button>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <div class="nav-content">
+        <button class="nav-item active" data-view="feed" onclick="switchView('feed')">
+          <span class="nav-icon">🏠</span>
+          <span>Home</span>
+        </button>
+        <button class="nav-item" data-view="discover" onclick="switchView('discover')">
+          <span class="nav-icon">🔍</span>
+          <span>Discover</span>
+        </button>
+        <button class="nav-item center" data-view="shorts" onclick="switchView('shorts')">
+          <span class="nav-icon center">🎬</span>
+          <span style="margin-top: 0.5rem;">Shorts</span>
+        </button>
+        <button class="nav-item" data-view="cards" onclick="switchView('cards')">
+          <span class="nav-icon">📇</span>
+          <span>Cards</span>
+        </button>
+        <button class="nav-item" data-view="wallet" onclick="switchView('wallet')">
+          <span class="nav-icon">💼</span>
+          <span>Wallet</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <script>
+    function enterAlpha(type) {
+      document.getElementById('welcomeScreen').style.display = 'none';
+      document.getElementById('mainApp').style.display = 'block';
+      switchView('feed');
+    }
+
+    function showWelcome() {
+      document.getElementById('welcomeScreen').style.display = 'flex';
+      document.getElementById('mainApp').style.display = 'none';
+    }
+
+    function switchView(viewName) {
+      // Hide all views
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      
+      // Show selected view
+      document.getElementById(viewName + 'View').classList.add('active');
+      
+      // Update nav
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.view === viewName) {
+          item.classList.add('active');
+        }
+      });
+    }
+
+    // Card flip
+    document.addEventListener('DOMContentLoaded', () => {
+      const card = document.getElementById('cardDisplay');
+      if (card) {
+        card.addEventListener('click', () => {
+          card.classList.toggle('flipped');
+        });
+      }
+    });
+
+    window.DIGI_BUILD = 'DiGiv5.0-Alpha';
+    console.log('✓ DiGiConnect Alpha loaded:', window.DIGI_BUILD);
+  </script>
+</body>
+</html>
