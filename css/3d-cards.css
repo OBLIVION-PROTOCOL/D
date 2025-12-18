@@ -1,0 +1,723 @@
+/*
+════════════════════════════════════════════════════════════════
+DiGiConnect 3D Interactive Cards
+360° rotation with mouse/touch controls
+════════════════════════════════════════════════════════════════
+*/
+
+/* ═══════════════════════════════════════════════════════════════
+   3D Card Container
+   ═══════════════════════════════════════════════════════════════ */
+.card-3d-container {
+    perspective: 1500px;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+}
+
+/* Horizontal orientation for Business/Client cards */
+.card-3d-container.horizontal {
+    max-width: 600px;
+}
+
+.card-3d-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 140%; /* Aspect ratio for vertical cards (Profile ID) */
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
+    cursor: grab;
+}
+
+/* Horizontal wrapper for Business/Client cards */
+.card-3d-wrapper.horizontal {
+    padding-bottom: 56.25%; /* 16:9 aspect ratio for horizontal cards */
+}
+
+.card-3d-wrapper:active {
+    cursor: grabbing;
+}
+
+.card-3d-wrapper.flipping {
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Card Faces (Front & Back)
+   ═══════════════════════════════════════════════════════════════ */
+.card-3d-face {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+.card-3d-front {
+    background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+}
+
+.card-3d-back {
+    background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+    transform: rotateY(180deg);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Card Type Themes - Profile ID
+   ═══════════════════════════════════════════════════════════════ */
+.card-3d-front.profile {
+    background: 
+        radial-gradient(ellipse at top right, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom left, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+        linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+}
+
+.card-3d-front.profile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #3b82f6 0%, #10b981 100%);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Card Type Themes - Business
+   ═══════════════════════════════════════════════════════════════ */
+.card-3d-front.business {
+    background: 
+        radial-gradient(ellipse at top right, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom left, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+        linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+}
+
+.card-3d-front.business::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #10b981 0%, #3b82f6 100%);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Card Type Themes - Client/Social
+   ═══════════════════════════════════════════════════════════════ */
+.card-3d-front.client {
+    background: 
+        radial-gradient(ellipse at top right, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom left, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+        linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+}
+
+.card-3d-front.client::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #a855f7 0%, #ec4899 100%);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Card Content Layout
+   ═══════════════════════════════════════════════════════════════ */
+.card-3d-content {
+    padding: 1.5rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Card Header */
+.card-3d-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.card-3d-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--card-accent, #10b981) 0%, var(--card-accent-alt, #3b82f6) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.card-3d-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+}
+
+.card-3d-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.card-3d-name {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 0.25rem;
+    line-height: 1.2;
+}
+
+.card-3d-title {
+    font-size: 0.875rem;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+}
+
+.card-3d-location {
+    font-size: 0.8rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+/* Trust Badge - Adaptive (Icon only or detailed) */
+.card-3d-trust {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 0.5rem;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    backdrop-filter: blur(10px);
+    cursor: help;
+    z-index: 3;
+    transition: transform 0.2s ease;
+    white-space: nowrap;
+}
+
+.card-3d-trust:hover {
+    transform: scale(1.15);
+}
+
+.card-3d-trust.gold {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.9) 0%, rgba(217, 119, 6, 0.9) 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.card-3d-trust.silver {
+    background: linear-gradient(135deg, rgba(148, 163, 184, 0.9) 0%, rgba(100, 116, 139, 0.9) 100%);
+    color: white;
+}
+
+.card-3d-trust.diamond {
+    background: linear-gradient(135deg, rgba(96, 165, 250, 0.9) 0%, rgba(59, 130, 246, 0.9) 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.card-3d-trust.bronze {
+    background: linear-gradient(135deg, rgba(180, 83, 9, 0.9) 0%, rgba(146, 64, 14, 0.9) 100%);
+    color: white;
+}
+
+/* Card Type Badge - Compact Design */
+.card-3d-type {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    z-index: 3;
+}
+
+.card-3d-type.profile-type {
+    background: rgba(59, 130, 246, 0.2);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.card-3d-type.business-type {
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.card-3d-type.client-type {
+    background: rgba(168, 85, 247, 0.2);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Card Stats
+   ═══════════════════════════════════════════════════════════════ */
+.card-3d-stats {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+}
+
+.card-3d-stat {
+    flex: 1;
+    text-align: center;
+    padding: 0.5rem 0;
+}
+
+.card-3d-stat:not(:last-child) {
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--card-accent, #10b981);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    font-size: 0.65rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Card Description
+   ═══════════════════════════════════════════════════════════════ */
+.card-3d-description {
+    font-size: 0.875rem;
+    color: #94a3b8;
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+    flex-grow: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Interactive Action Buttons
+   ═══════════════════════════════════════════════════════════════ */
+.card-3d-actions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-top: auto;
+}
+
+.card-3d-action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #f1f5f9;
+    text-decoration: none;
+    font-size: 0.65rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.card-3d-action:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--card-accent, #10b981);
+    transform: translateY(-2px);
+    color: white;
+}
+
+.card-3d-action:active {
+    transform: translateY(0);
+}
+
+.card-3d-action-icon {
+    font-size: 1.25rem;
+    margin-bottom: 0.35rem;
+}
+
+.card-3d-action-label {
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Social Links Row
+   ═══════════════════════════════════════════════════════════════ */
+.card-3d-socials {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-3d-social {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.card-3d-social:hover {
+    background: var(--card-accent, #10b981);
+    border-color: var(--card-accent, #10b981);
+    color: white;
+    transform: scale(1.1);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Link Aggregator Display on Cards
+   ═══════════════════════════════════════════════════════════════ */
+.card-3d-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-3d-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.card-3d-link:hover {
+    background: var(--link-color, var(--card-accent, #10b981));
+    border-color: var(--link-color, var(--card-accent, #10b981));
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.card-3d-link-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.card-3d-link-label {
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.card-3d-link-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.75rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #64748b;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* Compact view for smaller cards */
+.card-3d-container.horizontal .card-3d-links {
+    gap: 0.4rem;
+}
+
+.card-3d-container.horizontal .card-3d-link {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+}
+
+.card-3d-container.horizontal .card-3d-link-icon {
+    font-size: 1rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Back of Card - QR Code & Info
+   ═══════════════════════════════════════════════════════════════ */
+.card-3d-back-content {
+    padding: 1.5rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.card-3d-qr {
+    width: 160px;
+    height: 160px;
+    background: white;
+    border-radius: 16px;
+    padding: 12px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.card-3d-qr svg {
+    width: 100%;
+    height: 100%;
+}
+
+.card-3d-back-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 0.5rem;
+}
+
+.card-3d-back-tagline {
+    font-size: 0.875rem;
+    color: #94a3b8;
+    margin-bottom: 1.5rem;
+}
+
+.card-3d-back-hint {
+    font-size: 0.75rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Flip Hint */
+.card-3d-flip-hint {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.card-3d-container:hover .card-3d-flip-hint {
+    opacity: 1;
+}
+
+/* Invisible Corner Flip Zones */
+.card-3d-corner-flip {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.card-3d-corner-flip:hover {
+    opacity: 0.05;
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+}
+
+.card-3d-corner-flip.top-left {
+    top: 0;
+    left: 0;
+    border-top-left-radius: 16px;
+}
+
+.card-3d-corner-flip.top-right {
+    top: 0;
+    right: 0;
+    border-top-right-radius: 16px;
+}
+
+.card-3d-corner-flip.bottom-left {
+    bottom: 0;
+    left: 0;
+    border-bottom-left-radius: 16px;
+}
+
+.card-3d-corner-flip.bottom-right {
+    bottom: 0;
+    right: 0;
+    border-bottom-right-radius: 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Card Shine Effect
+   ═══════════════════════════════════════════════════════════════ */
+.card-3d-shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    background: linear-gradient(
+        105deg,
+        transparent 40%,
+        rgba(255, 255, 255, 0.03) 45%,
+        rgba(255, 255, 255, 0.08) 50%,
+        rgba(255, 255, 255, 0.03) 55%,
+        transparent 60%
+    );
+    background-size: 200% 200%;
+    background-position: 100% 100%;
+    transition: background-position 0.4s ease-out;
+    border-radius: 20px;
+}
+
+.card-3d-wrapper:hover .card-3d-shine {
+    background-position: -50% -50%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Demo Controls
+   ═══════════════════════════════════════════════════════════════ */
+.card-3d-controls {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.card-3d-control {
+    padding: 0.6rem 1.25rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    color: #94a3b8;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.card-3d-control:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #f1f5f9;
+    border-color: var(--color-primary);
+}
+
+.card-3d-control.active {
+    background: var(--gradient-primary);
+    color: white;
+    border-color: transparent;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Responsive Adjustments
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+    .card-3d-container {
+        max-width: 320px;
+    }
+    
+    .card-3d-content {
+        padding: 1.25rem;
+    }
+    
+    .card-3d-avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    
+    .card-3d-name {
+        font-size: 1.15rem;
+    }
+    
+    .card-3d-actions {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .card-3d-action {
+        padding: 0.6rem 0.25rem;
+    }
+    
+    .card-3d-action-icon {
+        font-size: 1.1rem;
+    }
+    
+    .card-3d-action-label {
+        font-size: 0.55rem;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Animation Keyframes
+   ═══════════════════════════════════════════════════════════════ */
+@keyframes cardEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(30px) rotateX(-10deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+    }
+}
+
+.card-3d-container {
+    animation: cardEntrance 0.6s ease-out;
+}
+
+/* Floating Animation for idle cards */
+@keyframes cardFloat {
+    0%, 100% {
+        transform: rotateX(5deg) rotateY(-5deg);
+    }
+    50% {
+        transform: rotateX(-5deg) rotateY(5deg);
+    }
+}
+
+.card-3d-wrapper.floating {
+    animation: cardFloat 6s ease-in-out infinite;
+}
